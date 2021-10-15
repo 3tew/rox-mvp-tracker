@@ -85,18 +85,27 @@ def detect_green_color(rgb_frame, hsv_frame):
 
 
 def send_message_webhook(boss_name, case):
-    PARAMS = {'content': ''}
 
     strTime = strftime("%Y-%m-%d %H:%M:%S", gmtime())
 
+    boss_name_file = boss_name.replace(' ', '')
+    boss_name_file = boss_name_file.lower()
+
+    img = cv2.imread('images/' + boss_name_file + '.png')
+    strImage = base64.b64encode(cv2.imencode('.png', img)[1]).decode()
+
+    PARAMS = {'image': '', 'content': ''}
+
     if case == 'refreshing':
         PARAMS = {
+            'image': strImage,
             'content': ('[' + strTime + '] `' + boss_name + '` กำลังจะรีเฟรช...(ประกาศ)')
         }
         print('[' + strTime + '] ' + boss_name + ' is refreshing...')
         config.NOTICE_TIME = config.CURRENT_TIME
     elif case == 'spawned':
         PARAMS = {
+            'image': strImage,
             'content': ('[' + strTime + '] `' + boss_name + '` ปรากฏแล้ว!')
         }
         print('[' + strTime + '] ' + boss_name + ' spawned!')
