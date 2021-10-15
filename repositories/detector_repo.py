@@ -8,6 +8,7 @@ import re
 import cv2
 import numpy as np
 import requests
+import base64
 from PIL import Image
 from time import gmtime, strftime
 from threading import Thread
