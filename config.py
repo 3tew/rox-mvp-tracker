@@ -22,7 +22,10 @@ FRAME_EMULATOR = None
 FRAME_EMULATOR_RGB = None
 FRAME_EMULATOR_HSV = None
 
-DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/898584759855382629/bgh3uQKNhyOJYHl2Qv7dWaw8i3NYoxmVgiYyRek-bbGBTjPE7s4gGTH0AIquEVwGYgl5"
+DISCORD_WEBHOOK_URLS = [
+    "https://discord.com/api/webhooks/898593959205564507/YmV7KJVqTUcrdr_oAr_DOIJSDkvbJyHuTp9P-4mEd32F5Wwzz1av_-O7OJNkiHf4kfER",  # Red pandA
+    "https://discord.com/api/webhooks/898584759855382629/bgh3uQKNhyOJYHl2Qv7dWaw8i3NYoxmVgiYyRek-bbGBTjPE7s4gGTH0AIquEVwGYgl5",  # Comtech
+]
 
 NOTICE_BOUNDING_BOX = {'x1': 0, 'y1': 0, 'x2': 0, 'y2': 0}
 NOTICE_TIME = 0

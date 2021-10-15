@@ -102,4 +102,5 @@ def send_message_webhook(boss_name, case):
         print('[' + strTime + '] ' + boss_name + ' spawned!')
 
     # sending get request and saving the response as response object
-    response = requests.post(config.DISCORD_WEBHOOK_URL, json=PARAMS)
+    for url in config.DISCORD_WEBHOOK_URLS:
+        response = requests.post(url, json=PARAMS)
