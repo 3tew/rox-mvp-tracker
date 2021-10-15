@@ -81,7 +81,7 @@ def maya_checking():
 
 
 def pharaoh_checking():
-    boss_name = 'Pharoah'
+    boss_name = 'Pharaoh'
     if config.CURRENT_TIME > (config.MVP_SPAWNED_TIME["pharaoh"] + 900):
         # Get bounding frame
         config.FRAME_BOSS_STATUS_BOX_3 = func_repo.get_bounding_frame(

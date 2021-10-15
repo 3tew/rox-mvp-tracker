@@ -10,8 +10,8 @@ import numpy as np
 import requests
 import base64
 from PIL import Image
-from time import gmtime, strftime
 from threading import Thread
+from datetime import datetime
 
 from repositories import func_repo
 from repositories import recognition_repo
@@ -87,46 +87,53 @@ def detect_green_color(rgb_frame, hsv_frame):
 
 def send_message_webhook(boss_name, case):
 
-    strTime = strftime("%Y-%m-%d %H:%M:%S", gmtime())
+    now = datetime.now()
+    strTime = now.strftime("%Y-%m-%d %H:%M:%S")
 
     boss_name_strip = boss_name.replace(' ', '')
     boss_name_lower = boss_name_strip.lower()
 
-    PARAMS = {
-        "content": '',
+    data = {
+        "content": "",
+        "username": "ROX - MVP Tracker",
         "embeds": [
             {
                 "title": "",
                 "description": "",
                 "color": 16734296,
                 "footer": {
-                    "text": "Develop by fb.com/thanatos1995 • " + strTime,
-                    "icon_url": "https://scontent.fbkk5-7.fna.fbcdn.net/v/t1.6435-9/67402512_2185187511591686_2859408008121679872_n.jpg?_nc_cat=107&ccb=1-5&_nc_sid=09cbfe&_nc_eui2=AeHw298dC14Pajk-Ckxi1IxM4SwswTM6WkvhLCzBMzpaSwiPsinyKzztoR_TLEMskorF02SMX3Qaa282WpffKVHE&_nc_ohc=wxF82DbcdLUAX8D-bOG&_nc_ht=scontent.fbkk5-7.fna&oh=baf525198a4f0a3437391bd17e038418&oe=618F5645"
+                    "text": "Develop by (fb.com/thanatos1995) • " + strTime,
+                    "icon_url": "https://lh3.googleusercontent.com/-jzKuCLruWuE/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucm5SxfcaJKzVr1kj9hGwC7EgmC5QQ/photo.jpg",
                 },
                 "thumbnail": {
-                    "url": ""
-                }
-            }
+                    "url": "",
+                },
+            },
         ],
-        "username": "ROX - MVP Tracker",
     }
 
     if case == 'refreshing':
-        PARAMS['embeds']['0']['title'] = config.BOSS_DATAS[boss_name_lower]['fullName']
-        PARAMS['embeds']['0']['description'] = '[' + \
+        data['embeds'][0]['title'] = config.BOSS_DATAS[boss_name_lower]['fullName']
+        data['embeds'][0]['description'] = '[' + \
             config.BOSS_DATAS[boss_name_lower]['type']+'] ประกาศแล้ว.'
-        PARAMS['embeds']['0']['thumbnail']['url'] = '[' + \
+        data['embeds'][0]['thumbnail']['url'] = '[' + \
             config.BOSS_DATAS[boss_name_lower]['thumbnailUrl']
         print('[' + strTime + '] ' + boss_name + ' is refreshing...')
         config.NOTICE_TIME = config.CURRENT_TIME
     elif case == 'spawned':
-        PARAMS['embeds']['0']['title'] = config.BOSS_DATAS[boss_name_lower]['fullName']
-        PARAMS['embeds']['0']['description'] = '[' + \
-            config.BOSS_DATAS[boss_name_lower]['type']+'] ปรากฏแล้ว.'
-        PARAMS['embeds']['0']['thumbnail']['url'] = '[' + \
-            config.BOSS_DATAS[boss_name_lower]['thumbnailUrl']
+        data['embeds'][0]['title'] = config.BOSS_DATAS[boss_name_lower]['fullName']
+        data['embeds'][0]['description'] = '[' + \
+            config.BOSS_DATAS[boss_name_lower]['type'] + '] ปรากฏแล้ว.'
+        data['embeds'][0]['thumbnail']['url'] = config.BOSS_DATAS[boss_name_lower]['thumbnailUrl']
         print('[' + strTime + '] ' + boss_name + ' spawned!')
 
     # sending get request and saving the response as response object
     for url in config.DISCORD_WEBHOOK_URLS:
-        requests.post(url, json=PARAMS)
+        result = requests.post(url, json=data)
+        try:
+            result.raise_for_status()
+        except requests.exceptions.HTTPError as err:
+            print(err)
+        else:
+            print("Payload delivered successfully, code {}.".format(
+                result.status_code))
