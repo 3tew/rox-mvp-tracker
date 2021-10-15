@@ -19,11 +19,11 @@ from repositories import boss_tracker_repo
 
 def running_step():
     # Start thread
-    thread1 = Thread(target=boss_anounce_detector)
+    # thread1 = Thread(target=boss_anounce_detector)
     thread2 = Thread(target=boss_tracking)
-    thread1.start()
+    # thread1.start()
     thread2.start()
-    thread1.join()
+    # thread1.join()
     thread2.join()
 
 
