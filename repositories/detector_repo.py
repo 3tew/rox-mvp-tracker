@@ -89,28 +89,44 @@ def send_message_webhook(boss_name, case):
 
     strTime = strftime("%Y-%m-%d %H:%M:%S", gmtime())
 
-    boss_name_file = boss_name.replace(' ', '')
-    boss_name_file = boss_name_file.lower()
+    boss_name_strip = boss_name.replace(' ', '')
+    boss_name_lower = boss_name_strip.lower()
 
-    img = cv2.imread('images/' + boss_name_file + '.png')
-    strImage = base64.b64encode(cv2.imencode('.png', img)[1]).decode()
-
-    PARAMS = {'image': '', 'content': ''}
+    PARAMS = {
+        "content": '',
+        "embeds": [
+            {
+                "title": "",
+                "description": "",
+                "color": 16734296,
+                "footer": {
+                    "text": "Develop by fb.com/thanatos1995 • " + strTime,
+                    "icon_url": "https://scontent.fbkk5-7.fna.fbcdn.net/v/t1.6435-9/67402512_2185187511591686_2859408008121679872_n.jpg?_nc_cat=107&ccb=1-5&_nc_sid=09cbfe&_nc_eui2=AeHw298dC14Pajk-Ckxi1IxM4SwswTM6WkvhLCzBMzpaSwiPsinyKzztoR_TLEMskorF02SMX3Qaa282WpffKVHE&_nc_ohc=wxF82DbcdLUAX8D-bOG&_nc_ht=scontent.fbkk5-7.fna&oh=baf525198a4f0a3437391bd17e038418&oe=618F5645"
+                },
+                "thumbnail": {
+                    "url": ""
+                }
+            }
+        ],
+        "username": "ROX - MVP Tracker",
+    }
 
     if case == 'refreshing':
-        PARAMS = {
-            'image': strImage,
-            'content': ('[' + strTime + '] `' + boss_name + '` กำลังจะรีเฟรช...(ประกาศ)')
-        }
+        PARAMS['embeds']['0']['title'] = config.BOSS_DATAS[boss_name_lower]['fullName']
+        PARAMS['embeds']['0']['description'] = '[' + \
+            config.BOSS_DATAS[boss_name_lower]['type']+'] ประกาศแล้ว.'
+        PARAMS['embeds']['0']['thumbnail']['url'] = '[' + \
+            config.BOSS_DATAS[boss_name_lower]['thumbnailUrl']
         print('[' + strTime + '] ' + boss_name + ' is refreshing...')
         config.NOTICE_TIME = config.CURRENT_TIME
     elif case == 'spawned':
-        PARAMS = {
-            'image': strImage,
-            'content': ('[' + strTime + '] `' + boss_name + '` ปรากฏแล้ว!')
-        }
+        PARAMS['embeds']['0']['title'] = config.BOSS_DATAS[boss_name_lower]['fullName']
+        PARAMS['embeds']['0']['description'] = '[' + \
+            config.BOSS_DATAS[boss_name_lower]['type']+'] ปรากฏแล้ว.'
+        PARAMS['embeds']['0']['thumbnail']['url'] = '[' + \
+            config.BOSS_DATAS[boss_name_lower]['thumbnailUrl']
         print('[' + strTime + '] ' + boss_name + ' spawned!')
 
     # sending get request and saving the response as response object
     for url in config.DISCORD_WEBHOOK_URLS:
-        response = requests.post(url, json=PARAMS)
+        requests.post(url, json=PARAMS)
