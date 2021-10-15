@@ -269,4 +269,4 @@ def show(frame):
 
         # Rendering
         cv2.imshow('RO:X - MVP Tracker v%s - Debugging' % config.VERSION,
-                   np.hstack([resized, config.FRAME_NOTICE_TEXT]))
+                   np.hstack([resized]))

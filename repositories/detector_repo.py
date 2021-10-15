@@ -85,21 +85,21 @@ def detect_green_color(rgb_frame, hsv_frame):
 
 
 def send_message_webhook(boss_name, case):
-    PARAMS = {'message': ''}
+    PARAMS = {'content': ''}
 
     strTime = strftime("%Y-%m-%d %H:%M:%S", gmtime())
 
     if case == 'refreshing':
         PARAMS = {
-            'message': ('[' + strTime + '] `' + boss_name + '` กำลังจะรีเฟรช...(ประกาศ)')
+            'content': ('[' + strTime + '] `' + boss_name + '` กำลังจะรีเฟรช...(ประกาศ)')
         }
         print('[' + strTime + '] ' + boss_name + ' is refreshing...')
         config.NOTICE_TIME = config.CURRENT_TIME
     elif case == 'spawned':
         PARAMS = {
-            'message': ('[' + strTime + '] `' + boss_name + '` ปรากฏแล้ว!')
+            'content': ('[' + strTime + '] `' + boss_name + '` ปรากฏแล้ว!')
         }
         print('[' + strTime + '] ' + boss_name + ' spawned!')
 
     # sending get request and saving the response as response object
-    # r = requests.post(url=config.ZAPIER_WEBHOOK_URL, data=PARAMS)
+    response = requests.post(config.DISCORD_WEBHOOK_URL, json=PARAMS)

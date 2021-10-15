@@ -1,5 +1,5 @@
 # Initialize Global Variables
-IS_DEVELOPMENT = True
+IS_DEVELOPMENT = False
 IS_RUNNING = True
 VERSION = '1.0'
 TITLE = 'RO:X Next Generation - MVP Tracker version ' + VERSION
@@ -22,7 +22,7 @@ FRAME_EMULATOR = None
 FRAME_EMULATOR_RGB = None
 FRAME_EMULATOR_HSV = None
 
-ZAPIER_WEBHOOK_URL = "https://hooks.zapier.com/hooks/catch/11095029/bt0yqsf/silent/"
+DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/898584759855382629/bgh3uQKNhyOJYHl2Qv7dWaw8i3NYoxmVgiYyRek-bbGBTjPE7s4gGTH0AIquEVwGYgl5"
 
 NOTICE_BOUNDING_BOX = {'x1': 0, 'y1': 0, 'x2': 0, 'y2': 0}
 NOTICE_TIME = 0
