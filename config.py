@@ -23,7 +23,7 @@ FRAME_EMULATOR_RGB = None
 FRAME_EMULATOR_HSV = None
 
 DISCORD_WEBHOOK_URLS = [
-    "https://discord.com/api/webhooks/898593959205564507/YmV7KJVqTUcrdr_oAr_DOIJSDkvbJyHuTp9P-4mEd32F5Wwzz1av_-O7OJNkiHf4kfER",  # Red pandA
+    # "https://discord.com/api/webhooks/898593959205564507/YmV7KJVqTUcrdr_oAr_DOIJSDkvbJyHuTp9P-4mEd32F5Wwzz1av_-O7OJNkiHf4kfER",  # Red pandA Guild
     "https://discord.com/api/webhooks/898584759855382629/bgh3uQKNhyOJYHl2Qv7dWaw8i3NYoxmVgiYyRek-bbGBTjPE7s4gGTH0AIquEVwGYgl5",  # Comtech
 ]
 

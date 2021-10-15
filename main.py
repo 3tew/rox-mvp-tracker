@@ -40,7 +40,7 @@ def main_function():
 
         # Crop
         func_repo.get_emulator_area()
-        
+
         render_repo.render_notice_bounding()
         render_repo.render_mvp_tab_bounding()
         render_repo.render_boss_status_bounding()
@@ -62,6 +62,10 @@ if __name__ == "__main__":
     ctypes.windll.kernel32.SetConsoleTitleW(config.TITLE)
     print(config.TITLE)
     print("Made by Thanapat Maliphan. (fb.com/thanatos1995)\n")
+
+    # Send started message
+    detector_repo.send_message_webhook('', 'bot_start')
+
     func_repo.select_emulator()
 
     # Start thread
@@ -74,5 +78,7 @@ if __name__ == "__main__":
     thread1.join()
     thread2.join()  # remove if main thread is polling self.keys
 
+    # Send started message
+    detector_repo.send_message_webhook('', 'bot_stop')
     # Exit program
     sys.exit(0)

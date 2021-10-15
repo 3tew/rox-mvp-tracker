@@ -113,6 +113,7 @@ def send_message_webhook(boss_name, case):
     }
 
     if case == 'refreshing':
+        data['embeds'][0]['color'] = 65504 # Blue
         data['embeds'][0]['title'] = config.BOSS_DATAS[boss_name_lower]['fullName']
         data['embeds'][0]['description'] = '[' + \
             config.BOSS_DATAS[boss_name_lower]['type']+'] ประกาศแล้ว.'
@@ -121,11 +122,20 @@ def send_message_webhook(boss_name, case):
         print('[' + strTime + '] ' + boss_name + ' is refreshing...')
         config.NOTICE_TIME = config.CURRENT_TIME
     elif case == 'spawned':
+        data['embeds'][0]['color'] = 1376000 # Green
         data['embeds'][0]['title'] = config.BOSS_DATAS[boss_name_lower]['fullName']
         data['embeds'][0]['description'] = '[' + \
             config.BOSS_DATAS[boss_name_lower]['type'] + '] ปรากฏแล้ว.'
         data['embeds'][0]['thumbnail']['url'] = config.BOSS_DATAS[boss_name_lower]['thumbnailUrl']
         print('[' + strTime + '] ' + boss_name + ' spawned!')
+    elif case == 'bot_start':
+        data['embeds'][0]['color'] = 16771928 # Yellow
+        data['embeds'][0]['title'] = 'Bot started'
+        data['embeds'][0]['description'] = 'บอทเริ่มทำงาน.'
+    elif case == 'bot_stop':
+        data['embeds'][0]['color'] = 16711680 # Red
+        data['embeds'][0]['title'] = 'Bot shutting down'
+        data['embeds'][0]['description'] = 'กำลังปิดการทำงาน.'
 
     # sending get request and saving the response as response object
     for url in config.DISCORD_WEBHOOK_URLS:
