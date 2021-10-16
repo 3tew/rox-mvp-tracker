@@ -8,8 +8,12 @@ import re
 import cv2
 import time
 import numpy as np
+from tkinter import *  
+from tkinter import messagebox 
 from PIL import Image
 
+root = Tk()
+root.withdraw()
 
 def on_press(key):
     try:
@@ -48,9 +52,8 @@ def mouse_draging():
     pyautogui.mouseDown(button='left')
     pyautogui.dragTo(x=x2, y=y2, button='left',
                      duration=0.35, mouseDownUp=False)
-    time.sleep(0.275)  # Delay 275 milliseconds
+    time.sleep(0.25)  # Delay 250 milliseconds
     pyautogui.mouseUp(button='left')
-    time.sleep(0.15)  # Delay 150 milliseconds
 
 
 def alert(title, message, kind='info', hidemain=True):
@@ -73,15 +76,16 @@ def find_emulator():
 
 def select_emulator():
     config.EMULATOR_TEXT = 'LDPlayer'
-    print("[SYSTEM]: Emulator is " + config.EMULATOR_TEXT)
+    print("[SYSTEM]: Finding " + config.EMULATOR_TEXT + ' emulator...')
     find_emulator()
+    print("[SYSTEM]: " + config.EMULATOR_TEXT + ' detected!')
 
 
 def get_emulator_area():
     try:
         window = pygetwindow.getWindowsWithTitle(config.EMULATOR_TEXT)[0]
     except IndexError:
-        func_repo.alert(
+        alert(
             'Error', 'Can\'t get emulator bounding box', kind='error')
         sys.exit(1)
     config.EMULATOR_X = window.left
@@ -107,20 +111,13 @@ def get_bounding_frame(bounding_area):
         'RGB', (config.SCREENSHOT.width, config.SCREENSHOT.height), config.SCREENSHOT.image)
     rgb_frame = cv2.cvtColor(
         np.array(frame), cv2.COLOR_BGR2RGB)
-    hsv_frame = cv2.cvtColor(rgb_frame, cv2.COLOR_BGR2HSV)
-    # Frame debugging
-    # cv2.imshow('RO:X - MVP Tracker v%s - Debugging' % config.VERSION,
-    #            np.hstack([rgb_frame]))
-    return {
-        'rgb': rgb_frame,
-        'hsv': hsv_frame,
-    }
+    return rgb_frame
 
 
 def crop_boss_notice_frame(bounding_area):
     BOUNDING_BOX = {
-        'top': config.EMULATOR_X + bounding_area['y1'],
-        'left': config.EMULATOR_Y + bounding_area['x1'],
+        'left': config.EMULATOR_X + bounding_area['x1'],
+        'top': config.EMULATOR_Y + bounding_area['y1'],
         'width': (bounding_area['x2'] - bounding_area['x1']),
         'height': (bounding_area['y2'] - bounding_area['y1']),
     }
@@ -130,17 +127,21 @@ def crop_boss_notice_frame(bounding_area):
         'RGB', (config.SCREENSHOT.width, config.SCREENSHOT.height), config.SCREENSHOT.image)
     config.FRAME_NOTICE_TEXT = cv2.cvtColor(
         np.array(config.FRAME_NOTICE_TEXT), cv2.COLOR_BGR2RGB)
+
+    # Copy
+    config.FRAME_NOTICE_TEXT_RECOG = config.FRAME_NOTICE_TEXT
+
     # Get local maximum:
     kernelSize = 5
     maxKernel = cv2.getStructuringElement(
         cv2.MORPH_RECT, (kernelSize, kernelSize)
     )
     localMax = cv2.morphologyEx(
-        config.FRAME_NOTICE_TEXT, cv2.MORPH_CLOSE, maxKernel, None, None, 1, cv2.BORDER_REFLECT101
+        config.FRAME_NOTICE_TEXT_RECOG, cv2.MORPH_CLOSE, maxKernel, None, None, 1, cv2.BORDER_REFLECT101
     )
     # Perform gain division
     gainDivision = np.where(
-        localMax == 0, 0, (config.FRAME_NOTICE_TEXT/localMax)
+        localMax == 0, 0, (config.FRAME_NOTICE_TEXT_RECOG/localMax)
     )
     # Clip the values to [0,255]
     gainDivision = np.clip((255 * gainDivision), 0, 255)
@@ -149,10 +150,10 @@ def crop_boss_notice_frame(bounding_area):
     # Convert RGB to grayscale:
     grayscaleImage = cv2.cvtColor(gainDivision, cv2.COLOR_BGR2GRAY)
     # Get binary image via Otsu:
-    _, config.FRAME_NOTICE_TEXT = cv2.threshold(
+    _, config.FRAME_NOTICE_TEXT_RECOG = cv2.threshold(
         grayscaleImage, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)
     # Flood fill (white + black):
-    cv2.floodFill(config.FRAME_NOTICE_TEXT, mask=None, seedPoint=(
+    cv2.floodFill(config.FRAME_NOTICE_TEXT_RECOG, mask=None, seedPoint=(
         int(0), int(0)), newVal=(255))
     # Invert image so target blobs are colored in white:
-    config.FRAME_NOTICE_TEXT = 255 - config.FRAME_NOTICE_TEXT
+    config.FRAME_NOTICE_TEXT_RECOG = 255 - config.FRAME_NOTICE_TEXT_RECOG

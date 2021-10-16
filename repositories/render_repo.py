@@ -12,7 +12,7 @@ from repositories import func_repo
 def render_notice_bounding():
     config.NOTICE_BOUNDING_BOX["x1"] = int((30 * config.EMULATOR_WIDTH) / 100)
     config.NOTICE_BOUNDING_BOX["y1"] = int((23 * config.EMULATOR_HEIGHT) / 100)
-    config.NOTICE_BOUNDING_BOX["x2"] = int((70 * config.EMULATOR_WIDTH) / 100)
+    config.NOTICE_BOUNDING_BOX["x2"] = int((50 * config.EMULATOR_WIDTH) / 100)
     config.NOTICE_BOUNDING_BOX["y2"] = int((26 * config.EMULATOR_HEIGHT) / 100)
     cv2.rectangle(
         config.FRAME_EMULATOR_RGB,
@@ -103,7 +103,7 @@ def render_mvp_tab_bounding():
 
 def render_boss_status_bounding():
     config.BOSS_STATUS_BOUNDING_BOX_0["x1"] = int(
-        (41 * config.EMULATOR_WIDTH) / 100)
+        (38 * config.EMULATOR_WIDTH) / 100)
     config.BOSS_STATUS_BOUNDING_BOX_0["y1"] = int(
         (16 * config.EMULATOR_HEIGHT) / 100)
     config.BOSS_STATUS_BOUNDING_BOX_0["x2"] = int(
@@ -112,7 +112,7 @@ def render_boss_status_bounding():
         (16.5 * config.EMULATOR_HEIGHT) / 100)
 
     config.BOSS_STATUS_BOUNDING_BOX_1["x1"] = int(
-        (41 * config.EMULATOR_WIDTH) / 100)
+        (38 * config.EMULATOR_WIDTH) / 100)
     config.BOSS_STATUS_BOUNDING_BOX_1["y1"] = int(
         (32 * config.EMULATOR_HEIGHT) / 100)
     config.BOSS_STATUS_BOUNDING_BOX_1["x2"] = int(
@@ -121,7 +121,7 @@ def render_boss_status_bounding():
         (35.5 * config.EMULATOR_HEIGHT) / 100)
 
     config.BOSS_STATUS_BOUNDING_BOX_2["x1"] = int(
-        (41 * config.EMULATOR_WIDTH) / 100)
+        (38 * config.EMULATOR_WIDTH) / 100)
     config.BOSS_STATUS_BOUNDING_BOX_2["y1"] = int(
         (48 * config.EMULATOR_HEIGHT) / 100)
     config.BOSS_STATUS_BOUNDING_BOX_2["x2"] = int(
@@ -130,7 +130,7 @@ def render_boss_status_bounding():
         (51.5 * config.EMULATOR_HEIGHT) / 100)
 
     config.BOSS_STATUS_BOUNDING_BOX_3["x1"] = int(
-        (41 * config.EMULATOR_WIDTH) / 100)
+        (38 * config.EMULATOR_WIDTH) / 100)
     config.BOSS_STATUS_BOUNDING_BOX_3["y1"] = int(
         (64 * config.EMULATOR_HEIGHT) / 100)
     config.BOSS_STATUS_BOUNDING_BOX_3["x2"] = int(
@@ -139,7 +139,7 @@ def render_boss_status_bounding():
         (67.5 * config.EMULATOR_HEIGHT) / 100)
 
     config.BOSS_STATUS_BOUNDING_BOX_4["x1"] = int(
-        (41 * config.EMULATOR_WIDTH) / 100)
+        (38 * config.EMULATOR_WIDTH) / 100)
     config.BOSS_STATUS_BOUNDING_BOX_4["y1"] = int(
         (80 * config.EMULATOR_HEIGHT) / 100)
     config.BOSS_STATUS_BOUNDING_BOX_4["x2"] = int(
@@ -246,7 +246,7 @@ def get_fps_string():
     return "%0.1f" % fps
 
 
-def show(frame):
+def show():
     python_process = psutil.Process(config.PID)
     memoryUse = str("{:.2f}".format(
         python_process.memory_info().rss / 1024 ** 2))

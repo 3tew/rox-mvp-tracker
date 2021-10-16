@@ -13,13 +13,14 @@ pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tessera
 def refreshing_text_detector():
     # Text recognition process...
     text = pytesseract.image_to_string(
-        config.FRAME_NOTICE_TEXT
+        config.FRAME_NOTICE_TEXT_RECOG
     )
     text = text.strip()
     text = text.lower()
     print("[SYSTEM]: Text = '" + text + "'")  # Debugging
 
-    if any(boss_name in text for boss_name in config.BOSS_NAMES):
+    boss_name = any(boss_name in text for boss_name in config.BOSS_NAMES)
+    if boss_name != None:
         if (config.CURRENT_TIME - config.NOTICE_TIME) > 15:  # ระยะเวลาระหว่างประกาศ 15 วินาที
             # Checking Abyss type
             abyssText = ''

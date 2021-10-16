@@ -9,23 +9,39 @@ import cv2
 import numpy as np
 import requests
 import base64
+import time
 from PIL import Image
 from threading import Thread
 from datetime import datetime
 
 from repositories import func_repo
+from repositories import render_repo
 from repositories import recognition_repo
 from repositories import boss_tracker_repo
 
 
 def running_step():
-    # Start thread
-    # thread1 = Thread(target=boss_anounce_detector)
-    thread2 = Thread(target=boss_tracking)
-    # thread1.start()
-    thread2.start()
-    # thread1.join()
-    thread2.join()
+    while config.IS_RUNNING:
+        # Set current time
+        config.CURRENT_TIME = time.time()
+
+        # Crop
+        func_repo.get_emulator_area()
+
+        # แปลงสีภาพ
+        config.FRAME_EMULATOR_RGB = cv2.cvtColor(
+            np.array(config.FRAME_EMULATOR), cv2.COLOR_BGR2RGB)
+        config.FRAME_EMULATOR_HSV = cv2.cvtColor(
+            config.FRAME_EMULATOR_RGB, cv2.COLOR_BGR2HSV)
+
+        render_repo.render_notice_bounding()
+        render_repo.render_mvp_tab_bounding()
+        render_repo.render_boss_status_bounding()
+
+        # boss_anounce_detector() # Maintainance
+        boss_tracking()
+
+        render_repo.show()
 
 
 def boss_anounce_detector():
@@ -49,35 +65,50 @@ def boss_tracking():
 def boss_status_detector(bossType, setNumber):
     if bossType == 'mvp':
         if setNumber == 1:  # [phreeoni mistress kraken eddga]
-            boss_tracker_repo.phreeoni_checking()
-            boss_tracker_repo.mistress_checking()
-            boss_tracker_repo.kraken_checking()
-            boss_tracker_repo.eddga_checking()
+            thread1 = Thread(target=boss_tracker_repo.phreeoni_checking())
+            thread2 = Thread(target=boss_tracker_repo.mistress_checking())
+            thread3 = Thread(target=boss_tracker_repo.kraken_checking())
+            thread4 = Thread(target=boss_tracker_repo.eddga_checking())
+            thread1.start()
+            thread2.start()
+            thread3.start()
+            thread4.start()
         elif setNumber == 2:  # [orchero maya pharaoh orclord]
-            boss_tracker_repo.orchero_checking()
-            boss_tracker_repo.maya_checking()
-            boss_tracker_repo.pharaoh_checking()
-            boss_tracker_repo.orclord_checking()
+            thread1 = Thread(target=boss_tracker_repo.orchero_checking())
+            thread2 = Thread(target=boss_tracker_repo.maya_checking())
+            thread3 = Thread(target=boss_tracker_repo.pharaoh_checking())
+            thread4 = Thread(target=boss_tracker_repo.orclord_checking())
+            thread1.start()
+            thread2.start()
+            thread3.start()
+            thread4.start()
     if bossType == 'mini':
         if setNumber == 1:  # [eclipse dragonfly mastering ghosting]
-            boss_tracker_repo.eclipse_checking()
-            boss_tracker_repo.dragonfly_checking()
-            boss_tracker_repo.mastering_checking()
-            boss_tracker_repo.ghosting_checking()
+            thread1 = Thread(target=boss_tracker_repo.eclipse_checking())
+            thread2 = Thread(target=boss_tracker_repo.dragonfly_checking())
+            thread3 = Thread(target=boss_tracker_repo.mastering_checking())
+            thread4 = Thread(target=boss_tracker_repo.ghosting_checking())
+            thread1.start()
+            thread2.start()
+            thread3.start()
+            thread4.start()
         elif setNumber == 2:  # [kingdramoh toad angeling deviling]
-            boss_tracker_repo.kingdramoh_checking()
-            boss_tracker_repo.toad_checking()
-            boss_tracker_repo.angeling_checking()
-            boss_tracker_repo.deviling_checking()
+            thread1 = Thread(target=boss_tracker_repo.kingdramoh_checking())
+            thread2 = Thread(target=boss_tracker_repo.toad_checking())
+            thread3 = Thread(target=boss_tracker_repo.angeling_checking())
+            thread4 = Thread(target=boss_tracker_repo.deviling_checking())
+            thread1.start()
+            thread2.start()
+            thread3.start()
+            thread4.start()
 
 
-def detect_green_color(rgb_frame, hsv_frame):
+def detect_green_color(hsv_frame):
     low_green = np.array([40, 40, 40])
     high_green = np.array([70, 255, 255])
     mask1 = cv2.inRange(hsv_frame, low_green, high_green)
     mask2 = cv2.inRange(hsv_frame, low_green, high_green)
     mask = cv2.bitwise_or(mask1, mask2)
-    green = cv2.bitwise_and(rgb_frame, rgb_frame, mask=mask)
     # Checking
     if cv2.countNonZero(mask) > 0:  # เขียวแล้ว
         return True
@@ -95,7 +126,7 @@ def send_message_webhook(boss_name, case):
 
     data = {
         "content": "",
-        "username": "ROX - MVP Tracker",
+        "username": "ROX - MVP Bot",
         "embeds": [
             {
                 "title": "",
@@ -113,27 +144,30 @@ def send_message_webhook(boss_name, case):
     }
 
     if case == 'refreshing':
-        data['embeds'][0]['color'] = 65504 # Blue
+        data['username'] = 'ROX - MVP Announcer'
+        data['embeds'][0]['color'] = 65504  # Blue
         data['embeds'][0]['title'] = config.BOSS_DATAS[boss_name_lower]['fullName']
         data['embeds'][0]['description'] = '[' + \
-            config.BOSS_DATAS[boss_name_lower]['type']+'] ประกาศแล้ว.'
+            config.BOSS_DATAS[boss_name_lower]['type'] + \
+            '] กำลังจะรีเฟรช (ประกาศ).'
         data['embeds'][0]['thumbnail']['url'] = '[' + \
             config.BOSS_DATAS[boss_name_lower]['thumbnailUrl']
         print('[' + strTime + '] ' + boss_name + ' is refreshing...')
         config.NOTICE_TIME = config.CURRENT_TIME
     elif case == 'spawned':
-        data['embeds'][0]['color'] = 1376000 # Green
+        data['username'] = 'ROX - MVP Tracker'
+        data['embeds'][0]['color'] = 1376000  # Green
         data['embeds'][0]['title'] = config.BOSS_DATAS[boss_name_lower]['fullName']
         data['embeds'][0]['description'] = '[' + \
             config.BOSS_DATAS[boss_name_lower]['type'] + '] ปรากฏแล้ว.'
         data['embeds'][0]['thumbnail']['url'] = config.BOSS_DATAS[boss_name_lower]['thumbnailUrl']
         print('[' + strTime + '] ' + boss_name + ' spawned!')
     elif case == 'bot_start':
-        data['embeds'][0]['color'] = 16771928 # Yellow
+        data['embeds'][0]['color'] = 16771928  # Yellow
         data['embeds'][0]['title'] = 'Bot started'
         data['embeds'][0]['description'] = 'บอทเริ่มทำงาน.'
     elif case == 'bot_stop':
-        data['embeds'][0]['color'] = 16711680 # Red
+        data['embeds'][0]['color'] = 16711680  # Red
         data['embeds'][0]['title'] = 'Bot shutting down'
         data['embeds'][0]['description'] = 'กำลังปิดการทำงาน.'
 

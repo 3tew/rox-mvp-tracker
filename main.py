@@ -26,35 +26,8 @@ print("Press 'Q' button to exit program.\n")
 
 
 def main_function():
-    while config.IS_RUNNING:
-        # ดักปุ่มกด
-        key = cv2.waitKey(25)
-        # Press "Q" button to exit program
-        if key & 0xFF == ord('q'):
-            config.IS_RUNNING = False
-            cv2.destroyAllWindows()
-            break
-
-        # Set current time
-        config.CURRENT_TIME = time.time()
-
-        # Crop
-        func_repo.get_emulator_area()
-
-        render_repo.render_notice_bounding()
-        render_repo.render_mvp_tab_bounding()
-        render_repo.render_boss_status_bounding()
-
-        # แปลงสีภาพ
-        config.FRAME_EMULATOR_RGB = cv2.cvtColor(
-            np.array(config.FRAME_EMULATOR), cv2.COLOR_BGR2RGB)
-        config.FRAME_EMULATOR_HSV = cv2.cvtColor(
-            config.FRAME_EMULATOR_RGB, cv2.COLOR_BGR2HSV)
-
-        # Processing
-        detector_repo.running_step()
-
-        render_repo.show(frame=config.FRAME_EMULATOR_RGB)
+    # Processing
+    detector_repo.running_step()
 
 
 if __name__ == "__main__":
