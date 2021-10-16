@@ -12,9 +12,12 @@ from repositories import func_repo
 from repositories import render_repo
 from repositories import recognition_repo
 from repositories import boss_tracker_repo
+from repositories import detector_repo
 
 
 def running_step():
+    # Send started message
+    detector_repo.send_message_webhook('', 'bot_start')
     while config.IS_RUNNING:
         # Set current time
         config.CURRENT_TIME = time.time()

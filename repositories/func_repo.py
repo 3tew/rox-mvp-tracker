@@ -55,7 +55,7 @@ def mouse_draging():
     pyautogui.mouseUp(button='left')
 
 
-def alert(title, message, kind='info', hidemain=True):
+def alert(title, message, kind='info'):
     if kind not in ('error', 'warning', 'info'):
         raise ValueError('Unsupported alert kind.')
     show_method = getattr(messagebox, 'show{}'.format(kind))

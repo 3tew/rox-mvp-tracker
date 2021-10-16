@@ -13,8 +13,10 @@ from repositories import detector_repo
 config.PID = os.getpid()
 config.SCREENSHOT = mss.mss()
 
-ctypes.windll.kernel32.SetConsoleTitleW(
-    config.TITLE + ' ' + str(config.VERSION))
+# Windows
+if os.name in ('nt', 'dos'):
+    ctypes.windll.kernel32.SetConsoleTitleW(
+        config.TITLE + ' ' + str(config.VERSION))
 # Clear console
 os.system('cls' if os.name in ('nt', 'dos') else 'clear')
 print("Press 'Q' button to exit program.\n")
@@ -27,12 +29,10 @@ def main_function():
 
 if __name__ == "__main__":
     # Set title
-    ctypes.windll.kernel32.SetConsoleTitleW(config.TITLE)
+    if os.name in ('nt', 'dos'):
+        ctypes.windll.kernel32.SetConsoleTitleW(config.TITLE)
     print(config.TITLE)
     print("Made by Thanapat Maliphan. (fb.com/thanatos1995)\n")
-
-    # Send started message
-    detector_repo.send_message_webhook('', 'bot_start')
 
     func_repo.select_emulator()
 

@@ -1,9 +1,10 @@
+import config
+
+import os
 import psutil
 import ctypes
 import cv2
 import numpy as np
-
-import config
 
 
 def render_notice_bounding():
@@ -252,7 +253,9 @@ def show():
         str(config.VERSION) + \
         " | MemoryUse: " + memoryUse + " MB" + \
         " | FPS: " + get_fps_string()
-    ctypes.windll.kernel32.SetConsoleTitleW(title)
+
+    if os.name in ('nt', 'dos'):
+        ctypes.windll.kernel32.SetConsoleTitleW(title)
 
     # Debugging
     if config.IS_DEVELOPMENT:

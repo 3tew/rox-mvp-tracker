@@ -1,9 +1,12 @@
 import config
-from repositories import detector_repo
 
+import os
 import pytesseract
 
-pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
+from repositories import detector_repo
+
+if os.name in ('nt', 'dos'):
+    pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
 
 
 def refreshing_text_detector():
