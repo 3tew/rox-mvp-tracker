@@ -173,5 +173,7 @@ def crop_boss_notice_frame(bounding_area):
 
 def get_webhook_urls():
     webhooks_file = open('webhooks.txt', 'r')
-    config.DISCORD_WEBHOOK_URLS = webhooks_file.readlines()
+    lines = webhooks_file.readlines()
+    for line in lines:
+        config.DISCORD_WEBHOOK_URLS.append(line.strip())
     print("[SYSTEM]: " + str(len(config.DISCORD_WEBHOOK_URLS)) + ' found webhooks.')
