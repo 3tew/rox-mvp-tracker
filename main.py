@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 import os
 import sys
-import ctypes
 from threading import Thread
 from pynput import keyboard
 import mss
@@ -13,10 +12,6 @@ from repositories import detector_repo
 config.PID = os.getpid()
 config.SCREENSHOT = mss.mss()
 
-# Windows
-if os.name in ('nt', 'dos'):
-    ctypes.windll.kernel32.SetConsoleTitleW(
-        config.TITLE + ' ' + str(config.VERSION))
 # Clear console
 os.system('cls' if os.name in ('nt', 'dos') else 'clear')
 print("Press 'Q' button to exit program.\n")
@@ -28,9 +23,6 @@ def main_function():
 
 
 if __name__ == "__main__":
-    # Set title
-    if os.name in ('nt', 'dos'):
-        ctypes.windll.kernel32.SetConsoleTitleW(config.TITLE)
     print(config.TITLE)
     print("Made by Thanapat Maliphan. (fb.com/thanatos1995)\n")
 

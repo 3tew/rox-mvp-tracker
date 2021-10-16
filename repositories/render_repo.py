@@ -1,8 +1,6 @@
 import config
 
-import os
 import psutil
-import ctypes
 import cv2
 import numpy as np
 
@@ -253,9 +251,6 @@ def show():
         str(config.VERSION) + \
         " | MemoryUse: " + memoryUse + " MB" + \
         " | FPS: " + get_fps_string()
-
-    if os.name in ('nt', 'dos'):
-        ctypes.windll.kernel32.SetConsoleTitleW(title)
 
     # Debugging
     if config.IS_DEVELOPMENT:
