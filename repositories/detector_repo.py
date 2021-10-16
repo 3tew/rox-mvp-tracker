@@ -16,7 +16,7 @@ from repositories import detector_repo
 
 def running():
     # Send started message
-    detector_repo.send_message_webhook('', 'bot_start')
+    detector_repo.send_message_webhook('bot_start', {})
 
     while config.IS_RUNNING:
         # Set current time
@@ -151,10 +151,11 @@ def refreshing_message_case(boss_data, strTime, data):
     data['username'] = 'ROX - MVP Announcer'
     data['embeds'][0]['color'] = 65504  # Blue
     data['embeds'][0]['title'] = boss_data['fullName']
-    data['embeds'][0]['description'] = '[' + \
-        boss_data['type'] + '] กำลังจะรีเฟรช... (ประกาศ)'
-    data['embeds'][0]['thumbnail']['url'] = '[' + \
-        boss_data['thumbnailUrl']
+    data['embeds'][0]['description'] = \
+        '[' + boss_data['type'] + '] กำลังจะรีเฟรช... (ประกาศ)'
+    data['embeds'][0]['thumbnail']['url'] = \
+        '[' + boss_data['thumbnailUrl']
+
     config.NOTICE_TIME = config.CURRENT_TIME
     print('[' + strTime + '] ' + boss_data['fullName'] + ' is refreshing...')
     return data
@@ -164,9 +165,10 @@ def spawned_message_case(boss_data, strTime, data):
     data['username'] = 'ROX - MVP Tracker'
     data['embeds'][0]['color'] = 1376000  # Green
     data['embeds'][0]['title'] = boss_data['fullName']
-    data['embeds'][0]['description'] = '[' + \
-        boss_data['type'] + '] ปรากฏแล้ว!'
+    data['embeds'][0]['description'] = \
+        '[' + boss_data['type'] + '] ปรากฏแล้ว!'
     data['embeds'][0]['thumbnail']['url'] = boss_data['thumbnailUrl']
+
     print('[' + strTime + '] ' + boss_data['fullName'] + ' spawned!')
     return data
 
@@ -174,8 +176,8 @@ def spawned_message_case(boss_data, strTime, data):
 def bot_start_message_case(data):
     data['embeds'][0]['color'] = 16771928  # Yellow
     data['embeds'][0]['title'] = 'Bot started'
-    data['embeds'][0][
-        'description'] = 'บอทเริ่มทำงาน\n\n✅ MVP Spawn Tracker\n❌ MVP Refreshing Detector *(กำลังทำ)*'
+    data['embeds'][0]['description'] = \
+        'บอทเริ่มทำงาน\n\n✅ MVP Spawn Tracker\n❌ MVP Refreshing Detector *(กำลังทำ)*'
     return data
 
 

@@ -46,6 +46,6 @@ if __name__ == "__main__":
     thread1.join()
     thread2.join()
     # Send shutting down message
-    detector_repo.send_message_webhook('', 'bot_stop')
+    detector_repo.send_message_webhook('bot_stop', {})
     # Exit program
     sys.exit(0)
