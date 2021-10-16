@@ -1,7 +1,7 @@
 # Initialize Global Variables
 IS_DEVELOPMENT = False
 IS_RUNNING = True
-VERSION = '1.0'
+VERSION = '1.2'
 TITLE = 'RO:X Next Generation - MVP Tracker version ' + VERSION
 FULL_TITLE = ''
 PID = ''
@@ -11,8 +11,8 @@ CURRENT_TIME = 0
 PREV_TIME = 0
 SCREENSHOT = None
 
-EMULATOR = 1  # BlueStacks App Player
-EMULATOR_TEXT = 'BlueStacks App Player'
+EMULATOR_NAMES = ['LDPlayer', 'BlueStacks App Player']
+EMULATOR_SELECTED = 'LDPlayer' # Default
 EMULATOR_X = 0
 EMULATOR_Y = 0
 EMULATOR_WIDTH = 0
@@ -22,10 +22,7 @@ FRAME_EMULATOR = None
 FRAME_EMULATOR_RGB = None
 FRAME_EMULATOR_HSV = None
 
-DISCORD_WEBHOOK_URLS = [
-    "https://discord.com/api/webhooks/898593959205564507/YmV7KJVqTUcrdr_oAr_DOIJSDkvbJyHuTp9P-4mEd32F5Wwzz1av_-O7OJNkiHf4kfER",  # Red pandA Guild
-    "https://discord.com/api/webhooks/898584759855382629/bgh3uQKNhyOJYHl2Qv7dWaw8i3NYoxmVgiYyRek-bbGBTjPE7s4gGTH0AIquEVwGYgl5",  # Comtech
-]
+DISCORD_WEBHOOK_URLS = []
 
 NOTICE_BOUNDING_BOX = {'x1': 0, 'y1': 0, 'x2': 0, 'y2': 0}
 NOTICE_TIME = 0

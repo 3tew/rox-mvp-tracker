@@ -6,195 +6,211 @@ from repositories import detector_repo
 
 # MVP Set 1 ===================================================
 def phreeoni_checking():
-    boss_name = 'Phreeoni'
+    boss_data = config.BOSS_DATAS["phreeoni"]
     if config.CURRENT_TIME > (config.MVP_SPAWNED_TIME["phreeoni"] + 900):
         # Get bounding frame
         config.FRAME_BOSS_STATUS_BOX_1_HSV = func_repo.get_bounding_frame(
             config.BOSS_STATUS_BOUNDING_BOX_1)
         # Checking green background
         if detector_repo.detect_green_color(config.FRAME_BOSS_STATUS_BOX_1_HSV):
-            detector_repo.send_message_webhook(boss_name, 'spawned')
+            detector_repo.send_message_webhook(
+                'spawned', {"boss_data": boss_data})
             config.MVP_SPAWNED_TIME["phreeoni"] = config.CURRENT_TIME
 
 
 def mistress_checking():
-    boss_name = 'Mistress'
+    boss_data = config.BOSS_DATAS["mistress"]
     if config.CURRENT_TIME > (config.MVP_SPAWNED_TIME["mistress"] + 900):
         # Get bounding frame
         config.FRAME_BOSS_STATUS_BOX_2_HSV = func_repo.get_bounding_frame(
             config.BOSS_STATUS_BOUNDING_BOX_2)
         # Checking green background
         if detector_repo.detect_green_color(config.FRAME_BOSS_STATUS_BOX_2_HSV):
-            detector_repo.send_message_webhook(boss_name, 'spawned')
+            detector_repo.send_message_webhook(
+                'spawned', {"boss_data": boss_data})
             config.MVP_SPAWNED_TIME["mistress"] = config.CURRENT_TIME
 
 
 def kraken_checking():
-    boss_name = 'Kraken'
+    boss_data = config.BOSS_DATAS["kraken"]
     if config.CURRENT_TIME > (config.MVP_SPAWNED_TIME["kraken"] + 900):
         # Get bounding frame
         config.FRAME_BOSS_STATUS_BOX_3_HSV = func_repo.get_bounding_frame(
             config.BOSS_STATUS_BOUNDING_BOX_3)
         # Checking green background
         if detector_repo.detect_green_color(config.FRAME_BOSS_STATUS_BOX_3_HSV):
-            detector_repo.send_message_webhook(boss_name, 'spawned')
+            detector_repo.send_message_webhook(
+                'spawned', {"boss_data": boss_data})
             config.MVP_SPAWNED_TIME["kraken"] = config.CURRENT_TIME
 
 
 def eddga_checking():
-    boss_name = 'Eddga'
+    boss_data = config.BOSS_DATAS["eddga"]
     if config.CURRENT_TIME > (config.MVP_SPAWNED_TIME["eddga"] + 900):
         # Get bounding frame
         config.FRAME_BOSS_STATUS_BOX_4_HSV = func_repo.get_bounding_frame(
             config.BOSS_STATUS_BOUNDING_BOX_4)
         # Checking green background
         if detector_repo.detect_green_color(config.FRAME_BOSS_STATUS_BOX_4_HSV):
-            detector_repo.send_message_webhook(boss_name, 'spawned')
+            detector_repo.send_message_webhook(
+                'spawned', {"boss_data": boss_data})
             config.MVP_SPAWNED_TIME["eddga"] = config.CURRENT_TIME
 
 
 # MVP Set 2 ===================================================
 def orchero_checking():
-    boss_name = 'Orc Hero'
+    boss_data = config.BOSS_DATAS["orchero"]
     if config.CURRENT_TIME > (config.MVP_SPAWNED_TIME["orchero"] + 900):
         # Get bounding frame
         config.FRAME_BOSS_STATUS_BOX_1_HSV = func_repo.get_bounding_frame(
             config.BOSS_STATUS_BOUNDING_BOX_1)
         # Checking green background
         if detector_repo.detect_green_color(config.FRAME_BOSS_STATUS_BOX_1_HSV):
-            detector_repo.send_message_webhook(boss_name, 'spawned')
+            detector_repo.send_message_webhook(
+                'spawned', {"boss_data": boss_data})
             config.MVP_SPAWNED_TIME["orchero"] = config.CURRENT_TIME
 
 
 def maya_checking():
-    boss_name = 'Maya'
+    boss_data = config.BOSS_DATAS["maya"]
     if config.CURRENT_TIME > (config.MVP_SPAWNED_TIME["maya"] + 900):
         # Get bounding frame
         config.FRAME_BOSS_STATUS_BOX_2_HSV = func_repo.get_bounding_frame(
             config.BOSS_STATUS_BOUNDING_BOX_2)
         # Checking green background
         if detector_repo.detect_green_color(config.FRAME_BOSS_STATUS_BOX_2_HSV):
-            detector_repo.send_message_webhook(boss_name, 'spawned')
+            detector_repo.send_message_webhook(
+                'spawned', {"boss_data": boss_data})
             config.MVP_SPAWNED_TIME["maya"] = config.CURRENT_TIME
 
 
 def pharaoh_checking():
-    boss_name = 'Pharaoh'
+    boss_data = config.BOSS_DATAS["pharaoh"]
     if config.CURRENT_TIME > (config.MVP_SPAWNED_TIME["pharaoh"] + 900):
         # Get bounding frame
         config.FRAME_BOSS_STATUS_BOX_3_HSV = func_repo.get_bounding_frame(
             config.BOSS_STATUS_BOUNDING_BOX_3)
         # Checking green background
         if detector_repo.detect_green_color(config.FRAME_BOSS_STATUS_BOX_3_HSV):
-            detector_repo.send_message_webhook(boss_name, 'spawned')
+            detector_repo.send_message_webhook(
+                'spawned', {"boss_data": boss_data})
             config.MVP_SPAWNED_TIME["pharaoh"] = config.CURRENT_TIME
 
 
 def orclord_checking():
-    boss_name = 'Orc Lord'
+    boss_data = config.BOSS_DATAS["orclord"]
     if config.CURRENT_TIME > (config.MVP_SPAWNED_TIME["orclord"] + 900):
         # Get bounding frame
         config.FRAME_BOSS_STATUS_BOX_4_HSV = func_repo.get_bounding_frame(
             config.BOSS_STATUS_BOUNDING_BOX_4)
         # Checking green background
         if detector_repo.detect_green_color(config.FRAME_BOSS_STATUS_BOX_4_HSV):
-            detector_repo.send_message_webhook(boss_name, 'spawned')
+            detector_repo.send_message_webhook(
+                'spawned', {"boss_data": boss_data})
             config.MVP_SPAWNED_TIME["orclord"] = config.CURRENT_TIME
 
 
 # MINI Set 1 ===================================================
 def eclipse_checking():
-    boss_name = 'Eclipse'
+    boss_data = config.BOSS_DATAS["eclipse"]
     if config.CURRENT_TIME > (config.MINI_SPAWNED_TIME["eclipse"] + 900):
         # Get bounding frame
         config.FRAME_BOSS_STATUS_BOX_1_HSV = func_repo.get_bounding_frame(
             config.BOSS_STATUS_BOUNDING_BOX_1)
         # Checking green background
         if detector_repo.detect_green_color(config.FRAME_BOSS_STATUS_BOX_1_HSV):
-            detector_repo.send_message_webhook(boss_name, 'spawned')
+            detector_repo.send_message_webhook(
+                'spawned', {"boss_data": boss_data})
             config.MINI_SPAWNED_TIME["eclipse"] = config.CURRENT_TIME
 
 
 def dragonfly_checking():
-    boss_name = 'Dragon Fly'
+    boss_data = config.BOSS_DATAS["dragonfly"]
     if config.CURRENT_TIME > (config.MINI_SPAWNED_TIME["dragonfly"] + 900):
         # Get bounding frame
         config.FRAME_BOSS_STATUS_BOX_2_HSV = func_repo.get_bounding_frame(
             config.BOSS_STATUS_BOUNDING_BOX_2)
         # Checking green background
         if detector_repo.detect_green_color(config.FRAME_BOSS_STATUS_BOX_2_HSV):
-            detector_repo.send_message_webhook(boss_name, 'spawned')
+            detector_repo.send_message_webhook(
+                'spawned', {"boss_data": boss_data})
             config.MINI_SPAWNED_TIME["dragonfly"] = config.CURRENT_TIME
 
 
 def mastering_checking():
-    boss_name = 'Mastering'
+    boss_data = config.BOSS_DATAS["mastering"]
     if config.CURRENT_TIME > (config.MINI_SPAWNED_TIME["mastering"] + 900):
         # Get bounding frame
         config.FRAME_BOSS_STATUS_BOX_3_HSV = func_repo.get_bounding_frame(
             config.BOSS_STATUS_BOUNDING_BOX_3)
         # Checking green background
         if detector_repo.detect_green_color(config.FRAME_BOSS_STATUS_BOX_3_HSV):
-            detector_repo.send_message_webhook(boss_name, 'spawned')
+            detector_repo.send_message_webhook(
+                'spawned', {"boss_data": boss_data})
             config.MINI_SPAWNED_TIME["mastering"] = config.CURRENT_TIME
 
 
 def ghosting_checking():
-    boss_name = 'Ghosting'
+    boss_data = config.BOSS_DATAS["ghosting"]
     if config.CURRENT_TIME > (config.MINI_SPAWNED_TIME["ghosting"] + 900):
         # Get bounding frame
         config.FRAME_BOSS_STATUS_BOX_4_HSV = func_repo.get_bounding_frame(
             config.BOSS_STATUS_BOUNDING_BOX_4)
         # Checking green background
         if detector_repo.detect_green_color(config.FRAME_BOSS_STATUS_BOX_4_HSV):
-            detector_repo.send_message_webhook(boss_name, 'spawned')
+            detector_repo.send_message_webhook(
+                'spawned', {"boss_data": boss_data})
             config.MINI_SPAWNED_TIME["ghosting"] = config.CURRENT_TIME
 
 
 # MINI Set 2 ===================================================
 def kingdramoh_checking():
-    boss_name = 'King Dramoh'
+    boss_data = config.BOSS_DATAS["kingdramoh"]
     if config.CURRENT_TIME > (config.MINI_SPAWNED_TIME["kingdramoh"] + 900):
         # Get bounding frame
         config.FRAME_BOSS_STATUS_BOX_1_HSV = func_repo.get_bounding_frame(
             config.BOSS_STATUS_BOUNDING_BOX_1)
         # Checking green background
         if detector_repo.detect_green_color(config.FRAME_BOSS_STATUS_BOX_1_HSV):
-            detector_repo.send_message_webhook(boss_name, 'spawned')
+            detector_repo.send_message_webhook(
+                'spawned', {"boss_data": boss_data})
             config.MINI_SPAWNED_TIME["kingdramoh"] = config.CURRENT_TIME
 
 
 def toad_checking():
-    boss_name = 'Toad'
+    boss_data = config.BOSS_DATAS["toad"]
     if config.CURRENT_TIME > (config.MINI_SPAWNED_TIME["toad"] + 900):
         # Get bounding frame
         config.FRAME_BOSS_STATUS_BOX_2_HSV = func_repo.get_bounding_frame(
             config.BOSS_STATUS_BOUNDING_BOX_2)
         # Checking green background
         if detector_repo.detect_green_color(config.FRAME_BOSS_STATUS_BOX_2_HSV):
-            detector_repo.send_message_webhook(boss_name, 'spawned')
+            detector_repo.send_message_webhook(
+                'spawned', {"boss_data": boss_data})
             config.MINI_SPAWNED_TIME["toad"] = config.CURRENT_TIME
 
 
 def angeling_checking():
-    boss_name = 'Angeling'
+    boss_data = config.BOSS_DATAS["angeling"]
     if config.CURRENT_TIME > (config.MINI_SPAWNED_TIME["angeling"] + 900):
         # Get bounding frame
         config.FRAME_BOSS_STATUS_BOX_3_HSV = func_repo.get_bounding_frame(
             config.BOSS_STATUS_BOUNDING_BOX_3)
         # Checking green background
         if detector_repo.detect_green_color(config.FRAME_BOSS_STATUS_BOX_3_HSV):
-            detector_repo.send_message_webhook(boss_name, 'spawned')
+            detector_repo.send_message_webhook(
+                'spawned', {"boss_data": boss_data})
             config.MINI_SPAWNED_TIME["angeling"] = config.CURRENT_TIME
 
 
 def deviling_checking():
-    boss_name = 'Deviling'
+    boss_data = config.BOSS_DATAS["deviling"]
     if config.CURRENT_TIME > (config.MINI_SPAWNED_TIME["deviling"] + 900):
         # Get bounding frame
         config.FRAME_BOSS_STATUS_BOX_4_HSV = func_repo.get_bounding_frame(
             config.BOSS_STATUS_BOUNDING_BOX_4)
         # Checking green background
         if detector_repo.detect_green_color(config.FRAME_BOSS_STATUS_BOX_4_HSV):
-            detector_repo.send_message_webhook(boss_name, 'spawned')
+            detector_repo.send_message_webhook(
+                'spawned', {"boss_data": boss_data})
             config.MINI_SPAWNED_TIME["deviling"] = config.CURRENT_TIME

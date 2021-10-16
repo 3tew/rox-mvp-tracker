@@ -7,12 +7,13 @@ import re
 import cv2
 import time
 import numpy as np
-from tkinter import *  
-from tkinter import messagebox 
+from tkinter import *
+from tkinter import messagebox
 from PIL import Image
 
 root = Tk()
 root.withdraw()
+
 
 def on_press(key):
     try:
@@ -20,8 +21,8 @@ def on_press(key):
     except:
         k = key.name  # other keys
     if k in ['q']:  # keys of interest
-        print("[SYSTEM]: Shutting down...")
         if k == 'q':
+            print("[SYSTEM]: Shutting down...")
             # Break while loop
             config.IS_RUNNING = False
             # Thread terminate
@@ -62,27 +63,33 @@ def alert(title, message, kind='info'):
     show_method(title, message)
 
 
-def find_emulator():
+def find_emulator(emulator_name):
     # Get titles of all specific window
     titles = pygetwindow.getAllTitles()
 
     # to get string with substring
-    res = [x for x in titles if re.search(config.EMULATOR_TEXT, x)]
+    res = [x for x in titles if re.search(emulator_name, x)]
     if len(res) == 0:
-        alert('Error', 'Emulator not found', kind='error')
-        sys.exit(1)
+        return False
+    else:
+        return True
 
 
 def select_emulator():
-    config.EMULATOR_TEXT = 'LDPlayer'
-    print("[SYSTEM]: Finding " + config.EMULATOR_TEXT + ' emulator...')
-    find_emulator()
-    print("[SYSTEM]: " + config.EMULATOR_TEXT + ' detected!')
+    for emulator_name in config.EMULATOR_NAMES:
+        print("[SYSTEM]: Finding " + emulator_name + ' emulator ...')
+        if find_emulator(emulator_name):
+            print("[SYSTEM]: " + emulator_name + ' detected!')
+            config.EMULATOR_SELECTED = emulator_name
+            return True
+    # Raise
+    alert('Error', 'Emulator not found', kind='error')
+    sys.exit(1)
 
 
-def get_emulator_area():
+def get_emulator_screenshot():
     try:
-        window = pygetwindow.getWindowsWithTitle(config.EMULATOR_TEXT)[0]
+        window = pygetwindow.getWindowsWithTitle(config.EMULATOR_SELECTED)[0]
     except IndexError:
         alert(
             'Error', 'Can\'t get emulator bounding box', kind='error')
@@ -96,6 +103,12 @@ def get_emulator_area():
     # Set emulator frame
     config.FRAME_EMULATOR = Image.frombytes(
         'RGB', (config.SCREENSHOT.width, config.SCREENSHOT.height), config.SCREENSHOT.image)
+    # Convert to RGB
+    config.FRAME_EMULATOR_RGB = cv2.cvtColor(
+        np.array(config.FRAME_EMULATOR), cv2.COLOR_BGR2RGB)
+    # Convert to HSV
+    config.FRAME_EMULATOR_HSV = cv2.cvtColor(
+        config.FRAME_EMULATOR_RGB, cv2.COLOR_BGR2HSV)
 
 
 def get_bounding_frame(bounding_area):
@@ -156,3 +169,9 @@ def crop_boss_notice_frame(bounding_area):
         int(0), int(0)), newVal=(255))
     # Invert image so target blobs are colored in white:
     config.FRAME_NOTICE_TEXT_RECOG = 255 - config.FRAME_NOTICE_TEXT_RECOG
+
+
+def get_webhook_urls():
+    webhooks_file = open('webhooks.txt', 'r')
+    config.DISCORD_WEBHOOK_URLS = webhooks_file.readlines()
+    print("[SYSTEM]: " + str(len(config.DISCORD_WEBHOOK_URLS)) + ' found webhooks.')
