@@ -1,6 +1,5 @@
 import config
 
-import os
 import sys
 import pyautogui
 import pygetwindow

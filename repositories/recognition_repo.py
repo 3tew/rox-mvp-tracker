@@ -1,10 +1,6 @@
 import config
-from repositories import func_repo
 from repositories import detector_repo
 
-import re
-import cv2
-import numpy as np
 import pytesseract
 
 pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"

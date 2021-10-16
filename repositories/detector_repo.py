@@ -1,16 +1,10 @@
 import config
 
-import os
-import sys
 import pyautogui
-import pygetwindow
-import re
 import cv2
 import numpy as np
 import requests
-import base64
 import time
-from PIL import Image
 from threading import Thread
 from datetime import datetime
 

@@ -3,16 +3,11 @@ import os
 import sys
 import ctypes
 from threading import Thread
-import time
 from pynput import keyboard
-import numpy as np
-import cv2
 import mss
-from win32api import GetSystemMetrics
 
 import config
 from repositories import func_repo
-from repositories import render_repo
 from repositories import detector_repo
 
 config.PID = os.getpid()

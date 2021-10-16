@@ -1,6 +1,4 @@
 import config
-import cv2
-import numpy as np
 
 from repositories import func_repo
 from repositories import detector_repo

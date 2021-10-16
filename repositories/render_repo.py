@@ -2,11 +2,8 @@ import psutil
 import ctypes
 import cv2
 import numpy as np
-from PIL import Image
 
 import config
-
-from repositories import func_repo
 
 
 def render_notice_bounding():
