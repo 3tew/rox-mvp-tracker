@@ -52,7 +52,7 @@ def mouse_draging():
     pyautogui.mouseDown(button='left')
     pyautogui.dragTo(x=x2, y=y2, button='left',
                      duration=0.35, mouseDownUp=False)
-    time.sleep(0.25)  # Delay 250 milliseconds
+    time.sleep(0.275)  # Delay 275 milliseconds
     pyautogui.mouseUp(button='left')
 
 
@@ -106,9 +106,6 @@ def get_emulator_screenshot():
     # Convert to RGB
     config.FRAME_EMULATOR_RGB = cv2.cvtColor(
         np.array(config.FRAME_EMULATOR), cv2.COLOR_BGR2RGB)
-    # Convert to HSV
-    config.FRAME_EMULATOR_HSV = cv2.cvtColor(
-        config.FRAME_EMULATOR_RGB, cv2.COLOR_BGR2HSV)
 
 
 def get_bounding_frame(bounding_area):
@@ -124,51 +121,6 @@ def get_bounding_frame(bounding_area):
     rgb_frame = cv2.cvtColor(
         np.array(frame), cv2.COLOR_BGR2RGB)
     return rgb_frame
-
-
-def crop_boss_notice_frame(bounding_area):
-    BOUNDING_BOX = {
-        'left': config.EMULATOR_X + bounding_area['x1'],
-        'top': config.EMULATOR_Y + bounding_area['y1'],
-        'width': (bounding_area['x2'] - bounding_area['x1']),
-        'height': (bounding_area['y2'] - bounding_area['y1']),
-    }
-    # Text image processing
-    config.SCREENSHOT.get_pixels(BOUNDING_BOX)
-    config.FRAME_NOTICE_TEXT = Image.frombytes(
-        'RGB', (config.SCREENSHOT.width, config.SCREENSHOT.height), config.SCREENSHOT.image)
-    config.FRAME_NOTICE_TEXT = cv2.cvtColor(
-        np.array(config.FRAME_NOTICE_TEXT), cv2.COLOR_BGR2RGB)
-
-    # Copy
-    config.FRAME_NOTICE_TEXT_RECOG = config.FRAME_NOTICE_TEXT
-
-    # Get local maximum:
-    kernelSize = 5
-    maxKernel = cv2.getStructuringElement(
-        cv2.MORPH_RECT, (kernelSize, kernelSize)
-    )
-    localMax = cv2.morphologyEx(
-        config.FRAME_NOTICE_TEXT_RECOG, cv2.MORPH_CLOSE, maxKernel, None, None, 1, cv2.BORDER_REFLECT101
-    )
-    # Perform gain division
-    gainDivision = np.where(
-        localMax == 0, 0, (config.FRAME_NOTICE_TEXT_RECOG/localMax)
-    )
-    # Clip the values to [0,255]
-    gainDivision = np.clip((255 * gainDivision), 0, 255)
-    # Convert the mat type from float to uint8:
-    gainDivision = gainDivision.astype("uint8")
-    # Convert RGB to grayscale:
-    grayscaleImage = cv2.cvtColor(gainDivision, cv2.COLOR_BGR2GRAY)
-    # Get binary image via Otsu:
-    _, config.FRAME_NOTICE_TEXT_RECOG = cv2.threshold(
-        grayscaleImage, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)
-    # Flood fill (white + black):
-    cv2.floodFill(config.FRAME_NOTICE_TEXT_RECOG, mask=None, seedPoint=(
-        int(0), int(0)), newVal=(255))
-    # Invert image so target blobs are colored in white:
-    config.FRAME_NOTICE_TEXT_RECOG = 255 - config.FRAME_NOTICE_TEXT_RECOG
 
 
 def get_webhook_urls():

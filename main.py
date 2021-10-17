@@ -9,6 +9,7 @@ import mss
 import config
 from repositories import func_repo
 from repositories import detector_repo
+from repositories import webhook_repo
 
 config.PID = os.getpid()
 config.SCREENSHOT = mss.mss()
@@ -27,7 +28,7 @@ print("Press 'Q' button to exit program.\n")
 def main_function():
     # Processing
     detector_repo.running()
-    # Finish program
+    # Finish process
     sys.exit(0)
 
 
@@ -46,6 +47,6 @@ if __name__ == "__main__":
     thread1.join()
     thread2.join()
     # Send shutting down message
-    detector_repo.send_message_webhook('bot_stop', {})
+    webhook_repo.send_message_webhook('bot_stop', {})
     # Exit program
     sys.exit(0)

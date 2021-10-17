@@ -1,19 +1,19 @@
 import config
 
 import os
+import cv2
+import numpy as np
 import pytesseract
 
-from repositories import detector_repo
+from repositories import webhook_repo
 
 if os.name in ('nt', 'dos'):
     pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
 
 
-def refreshing_text_detector():
+def refreshing_text_detector(frame):
     # Text recognition process...
-    text = pytesseract.image_to_string(
-        config.FRAME_NOTICE_TEXT_RECOG
-    )
+    text = pytesseract.image_to_string(frame)
     text = text.strip()
     text = text.lower()
     print("[SYSTEM]: Text = '" + text + "'")  # Debugging
@@ -22,48 +22,84 @@ def refreshing_text_detector():
     if boss_name != None:
         if (config.CURRENT_TIME - config.NOTICE_TIME) > 15:  # ระยะเวลาระหว่างประกาศ 15 วินาที
             # Checking Abyss type
-            abyssText = ''
-            if 'abyss' in text:
-                abyssText = 'Abyss '
+            isAbyss = True if 'abyss' in text else False
             # MVP
             if boss_name in ['phreeoni']:
-                detector_repo.send_message_webhook(
-                    abyssText + 'Phreeoni', 'refreshing')
+                webhook_repo.send_message_webhook(
+                    'refreshing', {"boss_data": config.BOSS_DATAS['phreeoni'], "is_abyss": isAbyss})
             elif boss_name in ['mistress']:
-                detector_repo.send_message_webhook(
-                    abyssText + 'Mistress', 'refreshing')
+                webhook_repo.send_message_webhook(
+                    'refreshing', {"boss_data": config.BOSS_DATAS['mistress'], "is_abyss": isAbyss})
             elif boss_name in ['kraken']:
-                detector_repo.send_message_webhook(
-                    abyssText + 'Kraken', 'refreshing')
+                webhook_repo.send_message_webhook(
+                    'refreshing', {"boss_data": config.BOSS_DATAS['kraken'], "is_abyss": isAbyss})
             elif boss_name in ['eddga']:
-                detector_repo.send_message_webhook(
-                    abyssText + 'Eddga', 'refreshing')
+                webhook_repo.send_message_webhook(
+                    'refreshing', {"boss_data": config.BOSS_DATAS['eddga'], "is_abyss": isAbyss})
             elif boss_name in ['orc hero', 'hero']:
-                detector_repo.send_message_webhook(
-                    abyssText + 'Orc Hero', 'refreshing')
+                webhook_repo.send_message_webhook(
+                    'refreshing', {"boss_data": config.BOSS_DATAS['orchero'], "is_abyss": isAbyss})
             elif boss_name in ['maya']:
-                detector_repo.send_message_webhook(
-                    abyssText + 'Maya', 'refreshing')
+                webhook_repo.send_message_webhook(
+                    'refreshing', {"boss_data": config.BOSS_DATAS['maya'], "is_abyss": isAbyss})
             elif boss_name in ['pharaoh']:
-                detector_repo.send_message_webhook(
-                    abyssText + 'Pharaoh', 'refreshing')
+                webhook_repo.send_message_webhook(
+                    'refreshing', {"boss_data": config.BOSS_DATAS['pharaoh'], "is_abyss": isAbyss})
             elif boss_name in ['orc lord', 'lord']:
-                detector_repo.send_message_webhook(
-                    abyssText + 'Orc Lord', 'refreshing')
+                webhook_repo.send_message_webhook(
+                    'refreshing', {"boss_data": config.BOSS_DATAS['orclord'], "is_abyss": isAbyss})
             # MINI
             elif boss_name in ['eclipse']:
-                detector_repo.send_message_webhook('Eclipse', 'refreshing')
+                webhook_repo.send_message_webhook(
+                    'refreshing', {"boss_data": config.BOSS_DATAS['eclipse']})
             elif boss_name in ['mastering']:
-                detector_repo.send_message_webhook('Mastering', 'refreshing')
+                webhook_repo.send_message_webhook(
+                    'refreshing', {"boss_data": config.BOSS_DATAS['mastering']})
             elif boss_name in ['ghosting']:
-                detector_repo.send_message_webhook('Ghosting', 'refreshing')
+                webhook_repo.send_message_webhook(
+                    'refreshing', {"boss_data": config.BOSS_DATAS['ghosting']})
             elif boss_name in ['toad']:
-                detector_repo.send_message_webhook('Toad', 'refreshing')
+                webhook_repo.send_message_webhook(
+                    'refreshing', {"boss_data": config.BOSS_DATAS['toad']})
             elif boss_name in ['dragon fly', 'dragon', 'fly']:
-                detector_repo.send_message_webhook('Dragon Fly', 'refreshing')
+                webhook_repo.send_message_webhook(
+                    'refreshing', {"boss_data": config.BOSS_DATAS['dragonfly']})
             elif boss_name in ['king dramoh', 'king', 'dramoh']:
-                detector_repo.send_message_webhook('King Dramoh', 'refreshing')
+                webhook_repo.send_message_webhook(
+                    'refreshing', {"boss_data": config.BOSS_DATAS['kingdramoh']})
             elif boss_name in ['angeling']:
-                detector_repo.send_message_webhook('Angeling', 'refreshing')
+                webhook_repo.send_message_webhook(
+                    'refreshing', {"boss_data": config.BOSS_DATAS['angeling']})
             elif boss_name in ['deviling']:
-                detector_repo.send_message_webhook('Deviling', 'refreshing')
+                webhook_repo.send_message_webhook(
+                    'refreshing', {"boss_data": config.BOSS_DATAS['deviling']})
+
+
+def blackwhite_image_processing(frame):
+    # Get local maximum:
+    kernelSize = 5
+    maxKernel = cv2.getStructuringElement(
+        cv2.MORPH_RECT, (kernelSize, kernelSize)
+    )
+    localMax = cv2.morphologyEx(
+        frame, cv2.MORPH_CLOSE, maxKernel, None, None, 1, cv2.BORDER_REFLECT101
+    )
+    # Perform gain division
+    gainDivision = np.where(
+        localMax == 0, 0, (frame/localMax)
+    )
+    # Clip the values to [0,255]
+    gainDivision = np.clip((255 * gainDivision), 0, 255)
+    # Convert the mat type from float to uint8:
+    gainDivision = gainDivision.astype("uint8")
+    # Convert RGB to grayscale:
+    grayscaleImage = cv2.cvtColor(gainDivision, cv2.COLOR_BGR2GRAY)
+    # Get binary image via Otsu:
+    _, frame = cv2.threshold(
+        grayscaleImage, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)
+    # Flood fill (white + black):
+    cv2.floodFill(frame, mask=None, seedPoint=(
+        int(0), int(0)), newVal=(255))
+    # Invert image so target blobs are colored in white:
+    frame = 255 - frame
+    return frame

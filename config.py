@@ -20,7 +20,6 @@ EMULATOR_HEIGHT = 0
 
 FRAME_EMULATOR = None
 FRAME_EMULATOR_RGB = None
-FRAME_EMULATOR_HSV = None
 
 DISCORD_WEBHOOK_URLS = []
 
@@ -34,11 +33,6 @@ BOSS_STATUS_BOUNDING_BOX_1 = {'x1': 0, 'y1': 0, 'x2': 0, 'y2': 0}
 BOSS_STATUS_BOUNDING_BOX_2 = {'x1': 0, 'y1': 0, 'x2': 0, 'y2': 0}
 BOSS_STATUS_BOUNDING_BOX_3 = {'x1': 0, 'y1': 0, 'x2': 0, 'y2': 0}
 BOSS_STATUS_BOUNDING_BOX_4 = {'x1': 0, 'y1': 0, 'x2': 0, 'y2': 0}
-
-FRAME_BOSS_STATUS_BOX_1_HSV = None
-FRAME_BOSS_STATUS_BOX_2_HSV = None
-FRAME_BOSS_STATUS_BOX_3_HSV = None
-FRAME_BOSS_STATUS_BOX_4_HSV = None
 
 MOUSE_DRAG_CENTER_X_1 = 0
 MOUSE_DRAG_CENTER_Y_1 = 0
@@ -78,7 +72,8 @@ BOSS_NAMES = [
     'Deviling',
 ]
 
-MVP_SPAWNED_TIME = {
+SPAWNED_TIME = {
+    # MVP
     'phreeoni': 0,
     'mistress': 0,
     'kraken': 0,
@@ -87,9 +82,7 @@ MVP_SPAWNED_TIME = {
     'maya': 0,
     'pharaoh': 0,
     'orclord': 0,
-}
-
-MINI_SPAWNED_TIME = {
+    # MINI
     'eclipse': 0,
     'dragonfly': 0,
     'mastering': 0,
