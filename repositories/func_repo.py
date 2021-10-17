@@ -11,6 +11,8 @@ from tkinter import *
 from tkinter import messagebox
 from PIL import Image
 
+from repositories import webhook_repo
+
 root = Tk()
 root.withdraw()
 
@@ -26,7 +28,7 @@ def on_press(key):
             # Break while loop
             config.IS_RUNNING = False
             # Thread terminate
-            sys.exit(0)
+            sys.exit()
 
 
 def mouse_click_mvp_tab():
@@ -81,23 +83,27 @@ def select_emulator():
         if find_emulator(emulator_name):
             print("[SYSTEM]: " + emulator_name + ' detected!')
             config.EMULATOR_SELECTED = emulator_name
-            return True
-    # Raise
+            return
     alert('Error', 'Emulator not found', kind='error')
-    sys.exit(1)
+    sys.exit()
 
 
 def get_emulator_screenshot():
     try:
         window = pygetwindow.getWindowsWithTitle(config.EMULATOR_SELECTED)[0]
     except IndexError:
-        alert(
-            'Error', 'Can\'t get emulator bounding box', kind='error')
-        sys.exit(1)
+        # Send error notification
+        webhook_repo.send_message_webhook('error', {"reason": "Emulator terminated"})
+        print('[ERROR]: Cant get emulator bounding box!')
+        config.IS_RUNNING = False
+        # Stop process
+        sys.exit()
+
     config.EMULATOR_X = window.left
     config.EMULATOR_Y = window.top
     config.EMULATOR_WIDTH = window.width
     config.EMULATOR_HEIGHT = window.height
+
     config.SCREENSHOT.get_pixels(
         {'top': config.EMULATOR_Y, 'left': config.EMULATOR_X, 'width': config.EMULATOR_WIDTH, 'height': config.EMULATOR_HEIGHT})
     # Set emulator frame
@@ -124,8 +130,7 @@ def get_bounding_frame(bounding_area):
 
 
 def get_webhook_urls():
-    webhooks_file = open('webhooks.txt', 'r')
-    lines = webhooks_file.readlines()
-    for line in lines:
-        config.DISCORD_WEBHOOK_URLS.append(line.strip())
+    with open('webhooks.txt', 'r') as file:
+        lines = file.readlines()
+        config.DISCORD_WEBHOOK_URLS = [line.rstrip() for line in lines]
     print("[SYSTEM]: " + str(len(config.DISCORD_WEBHOOK_URLS)) + ' found webhooks.')

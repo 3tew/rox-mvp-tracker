@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import config
 
 import cv2
@@ -235,6 +236,31 @@ def render_boss_status_bounding():
                 config.MOUSE_DRAG_CENTER_Y_2
             ),  # Point 2
             (0, 255, 0), 5  # Color, Thickness
+        )
+
+
+def render_disconnect_dialog_bounding():
+    config.DISCONNECT_DIALOG_BOUNDING_BOX["x1"] = int(
+        (52 * config.EMULATOR_WIDTH) / 100)
+    config.DISCONNECT_DIALOG_BOUNDING_BOX["y1"] = int(
+        (53 * config.EMULATOR_HEIGHT) / 100)
+    config.DISCONNECT_DIALOG_BOUNDING_BOX["x2"] = int(
+        (55 * config.EMULATOR_WIDTH) / 100)
+    config.DISCONNECT_DIALOG_BOUNDING_BOX["y2"] = int(
+        (56 * config.EMULATOR_HEIGHT) / 100)
+
+    if config.IS_DEVELOPMENT:
+        cv2.rectangle(
+            config.FRAME_EMULATOR_RGB,
+            (
+                config.DISCONNECT_DIALOG_BOUNDING_BOX['x1'],
+                config.DISCONNECT_DIALOG_BOUNDING_BOX['y1']
+            ),  # Point 1
+            (
+                config.DISCONNECT_DIALOG_BOUNDING_BOX['x2'],
+                config.DISCONNECT_DIALOG_BOUNDING_BOX['y2']
+            ),  # Point 2
+            (0, 255, 255), 1  # Color, Thickness
         )
 
 

@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import config
 
 from repositories import func_repo

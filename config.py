@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # Initialize Global Variables
 IS_DEVELOPMENT = False
 IS_RUNNING = True
@@ -33,6 +34,9 @@ BOSS_STATUS_BOUNDING_BOX_1 = {'x1': 0, 'y1': 0, 'x2': 0, 'y2': 0}
 BOSS_STATUS_BOUNDING_BOX_2 = {'x1': 0, 'y1': 0, 'x2': 0, 'y2': 0}
 BOSS_STATUS_BOUNDING_BOX_3 = {'x1': 0, 'y1': 0, 'x2': 0, 'y2': 0}
 BOSS_STATUS_BOUNDING_BOX_4 = {'x1': 0, 'y1': 0, 'x2': 0, 'y2': 0}
+
+DISCONNECT_DIALOG_BOUNDING_BOX = {'x1': 0, 'y1': 0, 'x2': 0, 'y2': 0}
+FRAME_DISCONNECT_DIALOG = None
 
 MOUSE_DRAG_CENTER_X_1 = 0
 MOUSE_DRAG_CENTER_Y_1 = 0
