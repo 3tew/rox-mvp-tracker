@@ -93,7 +93,8 @@ def get_emulator_screenshot():
         window = pygetwindow.getWindowsWithTitle(config.EMULATOR_SELECTED)[0]
     except IndexError:
         # Send error notification
-        webhook_repo.send_message_webhook('error', {"reason": "Emulator terminated"})
+        webhook_repo.send_message_webhook(
+            'error', {"reason": "Emulator terminated"})
         print('[ERROR]: Cant get emulator bounding box!')
         config.IS_RUNNING = False
         # Stop process
@@ -130,7 +131,12 @@ def get_bounding_frame(bounding_area):
 
 
 def get_webhook_urls():
-    with open('webhooks.txt', 'r') as file:
-        lines = file.readlines()
-        config.DISCORD_WEBHOOK_URLS = [line.rstrip() for line in lines]
+    try:
+        with open('webhooks.txt', 'r') as file:
+            lines = file.readlines()
+            config.DISCORD_WEBHOOK_URLS = [line.rstrip() for line in lines]
+    except FileNotFoundError:
+        print("[ERROR]: 'webhooks.txt' file not found.")
+        alert('Error', "'webhooks.txt' file not found.", kind='error')
+        sys.exit()
     print("[SYSTEM]: " + str(len(config.DISCORD_WEBHOOK_URLS)) + ' found webhooks.')
