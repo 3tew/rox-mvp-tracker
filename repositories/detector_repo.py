@@ -171,8 +171,8 @@ def detect_gray_color(hsv_frame):
 
 
 def detect_green_color(hsv_frame):
-    low_green = np.array([45, 70, 100])
-    high_green = np.array([60, 255, 255])
+    low_green = np.array([45, 40, 50])
+    high_green = np.array([65, 255, 255])
     mask1 = cv2.inRange(hsv_frame, low_green, high_green)
     mask2 = cv2.inRange(hsv_frame, low_green, high_green)
     mask = cv2.bitwise_or(mask1, mask2)
