@@ -36,6 +36,7 @@ def checking_box_1(name):
         # Get boss data
         boss_data = config.BOSS_DATAS[name]
         spawn_detecting(boss_data, config.BOSS_STATUS_BOUNDING_BOX_1)
+    dead_detecting(boss_data, config.BOSS_STATUS_BOUNDING_BOX_1)
 
 
 def checking_box_2(name):
@@ -53,6 +54,7 @@ def checking_box_3(name):
         # Get boss data
         boss_data = config.BOSS_DATAS[name]
         spawn_detecting(boss_data, config.BOSS_STATUS_BOUNDING_BOX_3)
+    dead_detecting(boss_data, config.BOSS_STATUS_BOUNDING_BOX_3)
 
 
 def checking_box_4(name):
@@ -61,3 +63,4 @@ def checking_box_4(name):
         # Get boss data
         boss_data = config.BOSS_DATAS[name]
         spawn_detecting(boss_data, config.BOSS_STATUS_BOUNDING_BOX_4)
+    dead_detecting(boss_data, config.BOSS_STATUS_BOUNDING_BOX_4)
