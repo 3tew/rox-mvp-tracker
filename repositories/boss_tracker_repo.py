@@ -23,7 +23,7 @@ def dead_detecting(boss_data, bounding_area):
     # Get bounding frame
     frame = func_repo.get_bounding_frame(config.SCREENSHOT, bounding_area)
     # Checking green background
-    if config.BOSS_DATAS[boss_data["name"]]["isAlive"] and detector_repo.detect_red_color(frame):
+    if config.BOSS_DATAS[boss_data["name"]]["isAlive"] and detector_repo.detect_green_color(frame) is False:
         webhook_repo.send_message_webhook(
             'dead', {"boss_data": boss_data})
         config.SPAWNED_TIME[boss_data["name"]] = config.CURRENT_TIME

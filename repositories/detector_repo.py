@@ -199,16 +199,3 @@ def detect_green_color(hsv_frame):
         return True
     else:
         return False
-
-
-def detect_red_color(hsv_frame):
-    low_red = np.array([0, 40, 40])
-    high_red = np.array([20, 255, 255])
-    mask1 = cv2.inRange(hsv_frame, low_red, high_red)
-    mask2 = cv2.inRange(hsv_frame, low_red, high_red)
-    mask = cv2.bitwise_or(mask1, mask2)
-    # Checking
-    if cv2.countNonZero(mask) > 0:  # แดงแล้ว
-        return True
-    else:
-        return False
