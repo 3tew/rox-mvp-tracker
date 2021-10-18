@@ -2,7 +2,6 @@
 import config
 
 import os
-import sys
 import cv2
 import numpy as np
 import pytesseract
@@ -15,13 +14,7 @@ if os.name in ('nt', 'dos'):
 
 def refreshing_text_detector(frame):
     # Text recognition process...
-    try:
-        text = pytesseract.image_to_string(frame)
-    except:
-        with open("error.log", "w") as err:
-            err.write(sys.exc_info()[1])
-            config.IS_RUNNING = False
-            sys.exit(1)
+    text = pytesseract.image_to_string(frame)
 
     text = text.strip()
     text = text.lower()
