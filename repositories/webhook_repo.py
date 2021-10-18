@@ -62,10 +62,10 @@ def refreshing_message_case(boss_data, isAbyss, strTime, data):
     data['embeds'][0]['thumbnail']['url'] = boss_data['thumbnailUrl']
 
     config.NOTICE_TIME = config.CURRENT_TIME
-    print('[' + strTime + '] ' +
-          ('Abyss ' + boss_data['fullName'])
-          if isAbyss else (boss_data['fullName'])
-          + ' is refreshing...')
+    print(
+        ('[' + strTime + '] ' + 'Abyss ' + boss_data['fullName'])
+        if isAbyss else ('[' + strTime + '] ' + boss_data['fullName'])
+        + ' is refreshing...')
     return data
 
 
