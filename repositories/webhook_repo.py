@@ -82,7 +82,7 @@ def bot_start_message_case(data):
     data['embeds'][0]['title'] = 'Bot started' + \
         (" `Development`" if config.IS_DEVELOPMENT else "")
     data['embeds'][0]['description'] = \
-        'บอทเริ่มทำงาน\n\n✅ MVP Spawn Tracker\n❌ MVP Refreshing Detector *(กำลังทำ)*'
+        'บอทเริ่มทำงาน\n\n✅ MVP Spawn Tracker\n✅ MVP Refreshing Detector'
     return data
 
 
