@@ -54,8 +54,8 @@ def send_message_webhook(case, options):
 def refreshing_message_case(boss_data, isAbyss, strTime, data):
     data['username'] = 'ROX - MVP Announcer'
     data['embeds'][0]['color'] = 65504  # Blue
-    data['embeds'][0]['title'] = ':loudspeaker: ' + \
-        ('Abyss ' + boss_data['fullName']) if isAbyss else (boss_data['fullName']) + \
+    data['embeds'][0]['title'] = \
+        (':loudspeaker: Abyss ' + boss_data['fullName']) if isAbyss else (':loudspeaker: ' + boss_data['fullName']) + \
         (" `Development`" if config.IS_DEVELOPMENT else "")
     data['embeds'][0]['description'] = \
         '[' + boss_data['type'] + '] กำลังจะรีเฟรช... (ประกาศแล้ว)'
