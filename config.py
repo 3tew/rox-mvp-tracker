@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 # Initialize Global Variables
+DEVELOPER_WEBHOOK = 'https://discord.com/api/webhooks/898584759855382629/bgh3uQKNhyOJYHl2Qv7dWaw8i3NYoxmVgiYyRek-bbGBTjPE7s4gGTH0AIquEVwGYgl5'  # Comtech
 IS_DEVELOPMENT = False
 IS_RUNNING = True
 IS_HOLD = False
-VERSION = '1.4b'
+VERSION = '1.5e'
 TITLE = 'RO:X Next Generation - MVP Tracker version ' + VERSION
 FULL_TITLE = ''
 PID = ''
@@ -13,7 +14,7 @@ PREV_TIME = 0
 SCREENSHOT = None
 
 EMULATOR_NAMES = ['LDPlayer', 'BlueStacks App Player']
-EMULATOR_SELECTED = 'LDPlayer' # Default
+EMULATOR_SELECTED = 'LDPlayer'  # Default
 EMULATOR_X = 0
 EMULATOR_Y = 0
 EMULATOR_WIDTH = 0

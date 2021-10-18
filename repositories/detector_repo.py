@@ -82,18 +82,19 @@ def game_failed_detector():
 def anounce_detector():
     self_screenshot = mss.mss()
     while config.IS_RUNNING:
-        # Crop the emulator screenshot
-        func_repo.get_emulator_screenshot(self_screenshot)
-        # Initialize and render bounding
-        render_repo.render_notice_bounding()
-        # Process
-        config.FRAME_NOTICE_TEXT = func_repo.get_bounding_frame(
-            self_screenshot, config.NOTICE_BOUNDING_BOX)
-        if config.FRAME_NOTICE_TEXT is not None:
-            config.FRAME_NOTICE_TEXT_RECOG = recognition_repo.blackwhite_image_processing(
-                config.FRAME_NOTICE_TEXT)
-            recognition_repo.refreshing_text_detector(
-                config.FRAME_NOTICE_TEXT_RECOG)
+        if config.IS_HOLD is False:
+            # Crop the emulator screenshot
+            func_repo.get_emulator_screenshot(self_screenshot)
+            # Initialize and render bounding
+            render_repo.render_notice_bounding()
+            # Process
+            config.FRAME_NOTICE_TEXT = func_repo.get_bounding_frame(
+                self_screenshot, config.NOTICE_BOUNDING_BOX)
+            if config.FRAME_NOTICE_TEXT is not None:
+                config.FRAME_NOTICE_TEXT_RECOG = recognition_repo.blackwhite_image_processing(
+                    config.FRAME_NOTICE_TEXT)
+                recognition_repo.refreshing_text_detector(
+                    config.FRAME_NOTICE_TEXT_RECOG)
 
 
 def boss_detector():
@@ -116,16 +117,23 @@ def boss_status_detector(bossType, setNumber):
                 target=boss_tracker_repo.checking_box_1('phreeoni'))
             thread2 = Thread(
                 target=boss_tracker_repo.checking_box_2('mistress'))
-            thread3 = Thread(target=boss_tracker_repo.checking_box_3('kraken'))
-            thread4 = Thread(target=boss_tracker_repo.checking_box_4('eddga'))
+            thread3 = Thread(
+                target=boss_tracker_repo.checking_box_3('kraken'))
+            thread4 = Thread(
+                target=boss_tracker_repo.checking_box_4('eddga'))
             thread1.start()
             thread2.start()
             thread3.start()
             thread4.start()
+            thread1.join()
+            thread2.join()
+            thread3.join()
+            thread4.join()
         elif setNumber == 2:  # [orchero maya pharaoh orclord]
             thread1 = Thread(
                 target=boss_tracker_repo.checking_box_1('orchero'))
-            thread2 = Thread(target=boss_tracker_repo.checking_box_2('maya'))
+            thread2 = Thread(
+                target=boss_tracker_repo.checking_box_2('maya'))
             thread3 = Thread(
                 target=boss_tracker_repo.checking_box_3('pharaoh'))
             thread4 = Thread(
@@ -134,6 +142,10 @@ def boss_status_detector(bossType, setNumber):
             thread2.start()
             thread3.start()
             thread4.start()
+            thread1.join()
+            thread2.join()
+            thread3.join()
+            thread4.join()
     if bossType == 'mini':
         if setNumber == 1:  # [eclipse dragonfly mastering ghosting]
             thread1 = Thread(
@@ -148,10 +160,15 @@ def boss_status_detector(bossType, setNumber):
             thread2.start()
             thread3.start()
             thread4.start()
+            thread1.join()
+            thread2.join()
+            thread3.join()
+            thread4.join()
         elif setNumber == 2:  # [kingdramoh toad angeling deviling]
             thread1 = Thread(
                 target=boss_tracker_repo.checking_box_1('kingdramoh'))
-            thread2 = Thread(target=boss_tracker_repo.checking_box_2('toad'))
+            thread2 = Thread(
+                target=boss_tracker_repo.checking_box_2('toad'))
             thread3 = Thread(
                 target=boss_tracker_repo.checking_box_3('angeling'))
             thread4 = Thread(
@@ -160,6 +177,10 @@ def boss_status_detector(bossType, setNumber):
             thread2.start()
             thread3.start()
             thread4.start()
+            thread1.join()
+            thread2.join()
+            thread3.join()
+            thread4.join()
 
 
 def detect_white_color(hsv_frame):

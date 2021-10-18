@@ -50,6 +50,6 @@ with keyboard.Listener(on_press=func_repo.on_press) as listener:
         logger.error(err)
         print(err)
         config.IS_RUNNING = False
-        webhook_repo.send_message_webhook(
-            'error', {"reason": "bot crashed"})
+        webhook_repo.send_logging_webhook(err)
+        webhook_repo.send_message_webhook('error', {"reason": "Bot crashed"})
         sys.exit(1)

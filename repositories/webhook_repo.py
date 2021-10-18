@@ -51,6 +51,35 @@ def send_message_webhook(case, options):
         thread.start()
 
 
+def send_logging_webhook(message):
+    now = datetime.now()
+    strTime = now.strftime("%Y-%m-%d %H:%M:%S")
+
+    data = {
+        "content": "",
+        "username": "ROX - MVP Bot",
+        "embeds": [
+            {
+                "title": "",
+                "description": "",
+                "color": 16734296,
+                "footer": {
+                    "text": "Develop by (fb.com/thanatos1995) • " + strTime,
+                    "icon_url": "https://lh3.googleusercontent.com/-jzKuCLruWuE/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucm5SxfcaJKzVr1kj9hGwC7EgmC5QQ/photo.jpg",
+                },
+                "thumbnail": {
+                    "url": "https://cdn0.iconfinder.com/data/icons/shift-free/32/Error-512.png",
+                },
+            },
+        ],
+    }
+    data = logging_message_case(data, message)
+
+    thread = Thread(target=request_discord_webhook(
+        config.DEVELOPER_WEBHOOK, data))
+    thread.start()
+
+
 def refreshing_message_case(boss_data, isAbyss, strTime, data):
     data['username'] = 'ROX - MVP Announcer'
     data['embeds'][0]['color'] = 65504  # Blue
@@ -97,7 +126,8 @@ def dead_message_case(boss_data, strTime, data):
 
 def bot_start_message_case(data):
     data['embeds'][0]['color'] = 16771928  # Yellow
-    data['embeds'][0]['title'] = 'Bot started' + \
+    data['embeds'][0]['title'] = 'Bot started ' + \
+        '(v' + config.VERSION + ' )' + \
         (" `Development`" if config.IS_DEVELOPMENT else "")
     data['embeds'][0]['description'] = \
         'บอทเริ่มทำงาน\n\n✅ MVP Spawn Tracker\n✅ MVP Refreshing Detector'
@@ -126,6 +156,14 @@ def disconnect_message_case(data):
     data['embeds'][0]['title'] = 'Disconnected' + \
         (" `Development`" if config.IS_DEVELOPMENT else "")
     data['embeds'][0]['description'] = 'บอทถูกตัดการเชื่อมต่อ'
+    return data
+
+
+def logging_message_case(data, message):
+    data['embeds'][0]['color'] = 16711680  # Red
+    data['embeds'][0]['title'] = ':warning: Logger report' + \
+        (" `Development`" if config.IS_DEVELOPMENT else "")
+    data['embeds'][0]['description'] = '`' + message + '`'
     return data
 
 
