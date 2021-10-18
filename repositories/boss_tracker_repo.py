@@ -31,36 +31,36 @@ def dead_detecting(boss_data, bounding_area):
 
 
 def checking_box_1(name):
+    # Get boss data
+    boss_data = config.BOSS_DATAS[name]
     # Checking process
     if config.CURRENT_TIME > (config.SPAWNED_TIME[name] + CHECKING_COOLDOWN):
-        # Get boss data
-        boss_data = config.BOSS_DATAS[name]
         spawn_detecting(boss_data, config.BOSS_STATUS_BOUNDING_BOX_1)
     dead_detecting(boss_data, config.BOSS_STATUS_BOUNDING_BOX_1)
 
 
 def checking_box_2(name):
+    # Get boss data
+    boss_data = config.BOSS_DATAS[name]
     # Checking process
     if config.CURRENT_TIME > (config.SPAWNED_TIME[name] + CHECKING_COOLDOWN):
-        # Get boss data
-        boss_data = config.BOSS_DATAS[name]
         spawn_detecting(boss_data, config.BOSS_STATUS_BOUNDING_BOX_2)
     dead_detecting(boss_data, config.BOSS_STATUS_BOUNDING_BOX_2)
 
 
 def checking_box_3(name):
+    # Get boss data
+    boss_data = config.BOSS_DATAS[name]
     # Checking process
     if config.CURRENT_TIME > (config.SPAWNED_TIME[name] + CHECKING_COOLDOWN):
-        # Get boss data
-        boss_data = config.BOSS_DATAS[name]
         spawn_detecting(boss_data, config.BOSS_STATUS_BOUNDING_BOX_3)
     dead_detecting(boss_data, config.BOSS_STATUS_BOUNDING_BOX_3)
 
 
 def checking_box_4(name):
+    # Get boss data
+    boss_data = config.BOSS_DATAS[name]
     # Checking process
     if config.CURRENT_TIME > (config.SPAWNED_TIME[name] + CHECKING_COOLDOWN):
-        # Get boss data
-        boss_data = config.BOSS_DATAS[name]
         spawn_detecting(boss_data, config.BOSS_STATUS_BOUNDING_BOX_4)
     dead_detecting(boss_data, config.BOSS_STATUS_BOUNDING_BOX_4)

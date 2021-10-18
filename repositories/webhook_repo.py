@@ -91,7 +91,7 @@ def dead_message_case(boss_data, strTime, data):
         '[' + boss_data['type'] + '] ตาย'
     data['embeds'][0]['thumbnail']['url'] = boss_data['thumbnailUrl']
 
-    print('[' + strTime + '] ' + boss_data['fullName'] + ' spawned!')
+    print('[' + strTime + '] ' + boss_data['fullName'] + ' died!')
     return data
 
 

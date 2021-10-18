@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import os
+import sys
 import pyautogui
 from pynput import keyboard
 import mss
@@ -8,9 +9,10 @@ import logging
 import config
 from repositories import func_repo
 from repositories import detector_repo
+from repositories import webhook_repo
 
 
-logging.basicConfig(filename='error.log', level=logging.DEBUG,
+logging.basicConfig(filename='error.log', level=logging.ERROR,
                     format='%(asctime)s %(levelname)s %(name)s %(message)s')
 logger = logging.getLogger(__name__)
 
@@ -46,3 +48,8 @@ with keyboard.Listener(on_press=func_repo.on_press) as listener:
         listener.join()
     except Exception as err:
         logger.error(err)
+        print(err)
+        config.IS_RUNNING = False
+        webhook_repo.send_message_webhook(
+            'error', {"reason": "bot crashed"})
+        sys.exit(1)
