@@ -16,6 +16,7 @@ from repositories import webhook_repo
 
 def running():
     # Send started message
+    print("[SYSTEM]: Bot started!")
     webhook_repo.send_message_webhook('bot_start', {})
 
     while config.IS_RUNNING:
