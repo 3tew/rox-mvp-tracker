@@ -2,7 +2,7 @@
 # Initialize Global Variables
 IS_DEVELOPMENT = False
 IS_RUNNING = True
-VERSION = '1.4'
+VERSION = '1.4a'
 TITLE = 'RO:X Next Generation - MVP Tracker version ' + VERSION
 FULL_TITLE = ''
 PID = ''
