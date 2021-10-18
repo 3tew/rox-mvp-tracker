@@ -19,7 +19,8 @@ os.system('cls' if os.name in ('nt', 'dos') else 'clear')
 
 print(config.TITLE)
 print("Develop by Thanapat Maliphan. (fb.com/thanatos1995)\n")
-print("Press 'Q' button to exit program.\n")
+print("Press 'Q' button to exit program.")
+print("Press 'P' button to toggle pause.\n")
 
 
 def main_function():

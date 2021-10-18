@@ -2,6 +2,7 @@
 import config
 
 import os
+import sys
 import cv2
 import numpy as np
 import pytesseract
@@ -14,7 +15,14 @@ if os.name in ('nt', 'dos'):
 
 def refreshing_text_detector(frame):
     # Text recognition process...
-    text = pytesseract.image_to_string(frame)
+    try:
+        text = pytesseract.image_to_string(frame)
+    except:
+        with open("error.log", "w") as err:
+            err.write(sys.exc_info()[1])
+            config.IS_RUNNING = False
+            sys.exit(1)
+
     text = text.strip()
     text = text.lower()
 
@@ -25,7 +33,7 @@ def refreshing_text_detector(frame):
         # ระยะเวลาระหว่างประกาศ 30 วินาที
         if (boss_name in text) and (config.CURRENT_TIME - config.NOTICE_TIME) > 30:
             # Checking Abyss type
-            isAbyss = True if 'abyss' in text else False
+            isAbyss = True if ('abyss' in text) else False
             # MVP
             if boss_name in ['phreeoni']:
                 webhook_repo.send_message_webhook(
