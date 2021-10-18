@@ -127,7 +127,7 @@ def dead_message_case(boss_data, strTime, data):
 def bot_start_message_case(data):
     data['embeds'][0]['color'] = 16771928  # Yellow
     data['embeds'][0]['title'] = 'Bot started ' + \
-        '(v' + config.VERSION + ' )' + \
+        '(v' + config.VERSION + ')' + \
         (" `Development`" if config.IS_DEVELOPMENT else "")
     data['embeds'][0]['description'] = \
         'บอทเริ่มทำงาน\n\n✅ MVP Spawn Tracker\n✅ MVP Refreshing Detector'
