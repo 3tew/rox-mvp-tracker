@@ -1,23 +1,23 @@
 # -*- coding: utf-8 -*-
 import os
 import sys
+import logging
 import pyautogui
 from pynput import keyboard
-import mss
-import logging
 
 import config
 from repositories import func_repo
 from repositories import detector_repo
 from repositories import webhook_repo
 
-
-logging.basicConfig(filename='error.log', level=logging.ERROR,
-                    format='%(asctime)s %(levelname)s %(name)s %(message)s')
-logger = logging.getLogger(__name__)
-
 config.PID = os.getpid()
-config.SCREENSHOT = mss.mss()
+
+logging.basicConfig(
+    filename='error.log',
+    level=logging.ERROR,
+    format='%(asctime)s %(levelname)s %(name)s %(message)s'
+)
+logger = logging.getLogger(__name__)
 
 # disable this fail-safe (for multiple display monitor)
 pyautogui.FAILSAFE = False

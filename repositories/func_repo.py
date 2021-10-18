@@ -61,7 +61,7 @@ def mouse_draging():
                      duration=0.375, mouseDownUp=False)
     time.sleep(0.3)  # Delay 300 milliseconds
     pyautogui.mouseUp(button='left')
-    time.sleep(0.15)  # Delay 150 milliseconds
+    time.sleep(0.1)  # Delay 100 milliseconds
 
 
 def alert(title, message, kind='info'):
@@ -84,12 +84,15 @@ def find_emulator(emulator_name):
 
 
 def select_emulator():
+    print("[SYSTEM]: Bot are supported on " +
+          ' ,'.join(map(str, config.EMULATOR_NAMES)) + " only.")
     for emulator_name in config.EMULATOR_NAMES:
         print("[SYSTEM]: Finding " + emulator_name + ' emulator ...')
         if find_emulator(emulator_name):
             print("[SYSTEM]: " + emulator_name + ' detected!')
             config.EMULATOR_SELECTED = emulator_name
             return
+    print("[ERROR]: Emulator not found.")
     alert('Error', 'Emulator not found', kind='error')
     sys.exit()
 
@@ -141,8 +144,8 @@ def get_bounding_frame(sct, bounding_area):
     # Get screenshot pixels
     try:
         sct.get_pixels(BOUNDING_BOX)
-    except mss.exception.ScreenshotError:
-        print("[ERROR]: ScreenshotError exception.")
+    except Exception as err:
+        print("[ERROR]: Exception, " + err)
 
     # Set emulator frame
     try:

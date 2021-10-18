@@ -5,9 +5,26 @@ import cv2
 import numpy as np
 
 
+def show():
+    # Debugging
+    if config.IS_DEVELOPMENT:
+        # Resize
+        scale_percent = 60  # percent of original size
+        width = int(
+            config.FRAME_EMULATOR_RGB.shape[1] * scale_percent / 100)
+        height = int(
+            config.FRAME_EMULATOR_RGB.shape[0] * scale_percent / 100)
+        resized = cv2.resize(config.FRAME_EMULATOR_RGB, (width, height))
+
+        # Rendering
+        cv2.imshow('RO:X - MVP Tracker v%s - Debugging' % config.VERSION,
+                   np.hstack([resized]))
+
+
 def render_notice_bounding():
     config.NOTICE_BOUNDING_BOX["x1"] = int((30 * config.EMULATOR_WIDTH) / 100)
-    config.NOTICE_BOUNDING_BOX["y1"] = int((23.75 * config.EMULATOR_HEIGHT) / 100)
+    config.NOTICE_BOUNDING_BOX["y1"] = int(
+        (23.75 * config.EMULATOR_HEIGHT) / 100)
     config.NOTICE_BOUNDING_BOX["x2"] = int((70 * config.EMULATOR_WIDTH) / 100)
     config.NOTICE_BOUNDING_BOX["y2"] = int((27 * config.EMULATOR_HEIGHT) / 100)
 
@@ -262,19 +279,3 @@ def render_disconnect_dialog_bounding():
             ),  # Point 2
             (0, 255, 255), 1  # Color, Thickness
         )
-
-
-def show():
-    # Debugging
-    if config.IS_DEVELOPMENT:
-        # Resize
-        scale_percent = 60  # percent of original size
-        width = int(
-            config.FRAME_EMULATOR_RGB.shape[1] * scale_percent / 100)
-        height = int(
-            config.FRAME_EMULATOR_RGB.shape[0] * scale_percent / 100)
-        resized = cv2.resize(config.FRAME_EMULATOR_RGB, (width, height))
-
-        # Rendering
-        cv2.imshow('RO:X - MVP Tracker v%s - Debugging' % config.VERSION,
-                   np.hstack([resized]))

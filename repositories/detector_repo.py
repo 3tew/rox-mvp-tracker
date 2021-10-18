@@ -20,69 +20,80 @@ def running():
     print("[SYSTEM]: Bot started!")
     webhook_repo.send_message_webhook('bot_start', {})
 
-    # Anouncer process
-    thread = Thread(target=anounce_detector)
-    thread.start()
-
-    # Main process
-    while config.IS_RUNNING:
-        if config.IS_HOLD is False:
-            # Set current time
-            config.CURRENT_TIME = time.time()
-
-            # Crop the emulator screenshot
-            func_repo.get_emulator_screenshot(config.SCREENSHOT)
-
-            # Initialize and render bounding
-            render_repo.render_mvp_tab_bounding()
-            render_repo.render_boss_status_bounding()
-            render_repo.render_disconnect_dialog_bounding()
-
-            # Core Detection
-            disconnect_detector()  # Step 1
-            game_failed_detector()  # Step 2
-            boss_detector()  # Step 3
-
-            # Render for debugging
-            # render_repo.show()
+    thread1 = Thread(target=game_failed_detector)
+    thread2 = Thread(target=disconnect_detector)
+    thread3 = Thread(target=boss_detector)
+    thread4 = Thread(target=anounce_detector)
+    thread1.start()
+    thread2.start()
+    thread3.start()
+    thread4.start()
+    thread1.join()
+    thread2.join()
+    thread3.join()
+    thread4.join()
 
     # Send shutting down message
     webhook_repo.send_message_webhook('bot_stop', {})
+    sys.exit()
 
 
 def disconnect_detector():
-    config.FRAME_DISCONNECT_DIALOG = func_repo.get_bounding_frame(
-        config.SCREENSHOT, config.DISCONNECT_DIALOG_BOUNDING_BOX)
-    if config.FRAME_DISCONNECT_DIALOG is not None:
-        hsv_frame = cv2.cvtColor(
-            np.array(config.FRAME_DISCONNECT_DIALOG), cv2.COLOR_BGR2HSV)
-        if detect_white_color(hsv_frame):
-            # Send disconnect message
-            print('[ERROR]: The game has disconnected.')
-            webhook_repo.send_message_webhook('disconnect', {})
-            config.IS_RUNNING = False
-            sys.exit()
+    self_screenshot = mss.mss()
+    while config.IS_RUNNING:
+        if config.IS_HOLD is False and config.IS_DISCONNECTED is False and config.IS_CRASHED is False:
+            # Set current time
+            config.CURRENT_TIME = time.time()
+            # Crop the emulator screenshot
+            func_repo.get_emulator_screenshot(self_screenshot)
+            # Initialize and render bounding
+            render_repo.render_disconnect_dialog_bounding()
+            # Process
+            config.FRAME_DISCONNECT_DIALOG = func_repo.get_bounding_frame(
+                self_screenshot, config.DISCONNECT_DIALOG_BOUNDING_BOX)
+            if config.FRAME_DISCONNECT_DIALOG is not None:
+                hsv_frame = cv2.cvtColor(
+                    np.array(config.FRAME_DISCONNECT_DIALOG), cv2.COLOR_BGR2HSV)
+                if detect_white_color(hsv_frame):
+                    # Send disconnect message
+                    print('[ERROR]: The game has disconnected.')
+                    webhook_repo.send_message_webhook('disconnect', {})
+                    config.IS_RUNNING = False
+                    sys.exit()
+    sys.exit()
 
 
 def game_failed_detector():
-    config.FRAME_DISCONNECT_DIALOG = func_repo.get_bounding_frame(
-        config.SCREENSHOT, config.BOSS_STATUS_BOUNDING_BOX_3)
-    if config.FRAME_DISCONNECT_DIALOG is not None:
-        hsv_frame = cv2.cvtColor(
-            np.array(config.FRAME_DISCONNECT_DIALOG), cv2.COLOR_BGR2HSV)
-        if detect_gray_color(hsv_frame):
-            # Send disconnect message
-            print('[ERROR]: The game crashed exit.')
-            webhook_repo.send_message_webhook(
-                'error', {"reason": "Game crashed"})
-            config.IS_RUNNING = False
-            sys.exit()
+    self_screenshot = mss.mss()
+    while config.IS_RUNNING:
+        if config.IS_HOLD is False and config.IS_DISCONNECTED is False and config.IS_CRASHED is False:
+            # Set current time
+            config.CURRENT_TIME = time.time()
+            # Crop the emulator screenshot
+            func_repo.get_emulator_screenshot(self_screenshot)
+            # Initialize and render bounding
+            render_repo.render_boss_status_bounding()  # using BOSS_STATUS_BOUNDING_BOX_3
+            config.FRAME_DISCONNECT_DIALOG = func_repo.get_bounding_frame(
+                self_screenshot, config.BOSS_STATUS_BOUNDING_BOX_3)
+            if config.FRAME_DISCONNECT_DIALOG is not None:
+                hsv_frame = cv2.cvtColor(
+                    np.array(config.FRAME_DISCONNECT_DIALOG), cv2.COLOR_BGR2HSV)
+                if detect_gray_color(hsv_frame):
+                    # Send disconnect message
+                    print('[ERROR]: The game crashed exit.')
+                    webhook_repo.send_message_webhook(
+                        'error', {"reason": "Game crashed"})
+                    config.IS_RUNNING = False
+                    sys.exit()
+    sys.exit()
 
 
 def anounce_detector():
     self_screenshot = mss.mss()
     while config.IS_RUNNING:
-        if config.IS_HOLD is False:
+        if config.IS_HOLD is False and config.IS_DISCONNECTED is False and config.IS_CRASHED is False:
+            # Set current time
+            config.CURRENT_TIME = time.time()
             # Crop the emulator screenshot
             func_repo.get_emulator_screenshot(self_screenshot)
             # Initialize and render bounding
@@ -95,32 +106,44 @@ def anounce_detector():
                     config.FRAME_NOTICE_TEXT)
                 recognition_repo.refreshing_text_detector(
                     config.FRAME_NOTICE_TEXT_RECOG)
+    sys.exit()
 
 
 def boss_detector():
-    # MVP Step
-    func_repo.mouse_click_mvp_tab()
-    boss_status_detector('mvp', 1)
-    func_repo.mouse_draging()
-    boss_status_detector('mvp', 2)
-    # MINI Step
-    func_repo.mouse_click_mini_tab()
-    boss_status_detector('mini', 1)
-    func_repo.mouse_draging()
-    boss_status_detector('mini', 2)
+    self_screenshot = mss.mss()
+    while config.IS_RUNNING:
+        if config.IS_HOLD is False and config.IS_DISCONNECTED is False and config.IS_CRASHED is False:
+            # Set current time
+            config.CURRENT_TIME = time.time()
+            # Crop the emulator screenshot
+            func_repo.get_emulator_screenshot(self_screenshot)
+            # Initialize and render bounding
+            render_repo.render_mvp_tab_bounding()
+            render_repo.render_boss_status_bounding()
+            # MVP Step
+            func_repo.mouse_click_mvp_tab()
+            boss_status_detector(self_screenshot, 'mvp', 1)
+            func_repo.mouse_draging()
+            boss_status_detector(self_screenshot, 'mvp', 2)
+            # MINI Step
+            func_repo.mouse_click_mini_tab()
+            boss_status_detector(self_screenshot, 'mini', 1)
+            func_repo.mouse_draging()
+            boss_status_detector(self_screenshot, 'mini', 2)
+    sys.exit()
 
 
-def boss_status_detector(bossType, setNumber):
+def boss_status_detector(sct, bossType, setNumber):
     if bossType == 'mvp':
         if setNumber == 1:  # [phreeoni mistress kraken eddga]
             thread1 = Thread(
-                target=boss_tracker_repo.checking_box_1('phreeoni'))
+                target=boss_tracker_repo.checking_box_1(sct, 'phreeoni'))
             thread2 = Thread(
-                target=boss_tracker_repo.checking_box_2('mistress'))
+                target=boss_tracker_repo.checking_box_2(sct, 'mistress'))
             thread3 = Thread(
-                target=boss_tracker_repo.checking_box_3('kraken'))
+                target=boss_tracker_repo.checking_box_3(sct, 'kraken'))
             thread4 = Thread(
-                target=boss_tracker_repo.checking_box_4('eddga'))
+                target=boss_tracker_repo.checking_box_4(sct, 'eddga'))
             thread1.start()
             thread2.start()
             thread3.start()
@@ -131,13 +154,13 @@ def boss_status_detector(bossType, setNumber):
             thread4.join()
         elif setNumber == 2:  # [orchero maya pharaoh orclord]
             thread1 = Thread(
-                target=boss_tracker_repo.checking_box_1('orchero'))
+                target=boss_tracker_repo.checking_box_1(sct, 'orchero'))
             thread2 = Thread(
-                target=boss_tracker_repo.checking_box_2('maya'))
+                target=boss_tracker_repo.checking_box_2(sct, 'maya'))
             thread3 = Thread(
-                target=boss_tracker_repo.checking_box_3('pharaoh'))
+                target=boss_tracker_repo.checking_box_3(sct, 'pharaoh'))
             thread4 = Thread(
-                target=boss_tracker_repo.checking_box_4('orclord'))
+                target=boss_tracker_repo.checking_box_4(sct, 'orclord'))
             thread1.start()
             thread2.start()
             thread3.start()
@@ -149,13 +172,13 @@ def boss_status_detector(bossType, setNumber):
     if bossType == 'mini':
         if setNumber == 1:  # [eclipse dragonfly mastering ghosting]
             thread1 = Thread(
-                target=boss_tracker_repo.checking_box_1('eclipse'))
+                target=boss_tracker_repo.checking_box_1(sct, 'eclipse'))
             thread2 = Thread(
-                target=boss_tracker_repo.checking_box_2('dragonfly'))
+                target=boss_tracker_repo.checking_box_2(sct, 'dragonfly'))
             thread3 = Thread(
-                target=boss_tracker_repo.checking_box_3('mastering'))
+                target=boss_tracker_repo.checking_box_3(sct, 'mastering'))
             thread4 = Thread(
-                target=boss_tracker_repo.checking_box_4('ghosting'))
+                target=boss_tracker_repo.checking_box_4(sct, 'ghosting'))
             thread1.start()
             thread2.start()
             thread3.start()
@@ -166,13 +189,13 @@ def boss_status_detector(bossType, setNumber):
             thread4.join()
         elif setNumber == 2:  # [kingdramoh toad angeling deviling]
             thread1 = Thread(
-                target=boss_tracker_repo.checking_box_1('kingdramoh'))
+                target=boss_tracker_repo.checking_box_1(sct, 'kingdramoh'))
             thread2 = Thread(
-                target=boss_tracker_repo.checking_box_2('toad'))
+                target=boss_tracker_repo.checking_box_2(sct, 'toad'))
             thread3 = Thread(
-                target=boss_tracker_repo.checking_box_3('angeling'))
+                target=boss_tracker_repo.checking_box_3(sct, 'angeling'))
             thread4 = Thread(
-                target=boss_tracker_repo.checking_box_4('deviling'))
+                target=boss_tracker_repo.checking_box_4(sct, 'deviling'))
             thread1.start()
             thread2.start()
             thread3.start()

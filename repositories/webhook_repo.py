@@ -75,8 +75,9 @@ def send_logging_webhook(message):
     }
     data = logging_message_case(data, message)
 
-    thread = Thread(target=request_discord_webhook(
-        config.DEVELOPER_WEBHOOK, data))
+    thread = Thread(
+        target=request_discord_webhook(config.DEVELOPER_WEBHOOK, data)
+    )
     thread.start()
 
 
