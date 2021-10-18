@@ -6,6 +6,7 @@ import pygetwindow
 import re
 import cv2
 import time
+import mss
 import numpy as np
 from tkinter import *
 from tkinter import messagebox
@@ -93,7 +94,7 @@ def select_emulator():
     sys.exit()
 
 
-def get_emulator_screenshot():
+def get_emulator_screenshot(sct):
     try:
         window = pygetwindow.getWindowsWithTitle(config.EMULATOR_SELECTED)[0]
     except IndexError:
@@ -110,26 +111,47 @@ def get_emulator_screenshot():
     config.EMULATOR_WIDTH = window.width
     config.EMULATOR_HEIGHT = window.height
 
-    config.SCREENSHOT.get_pixels(
-        {'top': config.EMULATOR_Y, 'left': config.EMULATOR_X, 'width': config.EMULATOR_WIDTH, 'height': config.EMULATOR_HEIGHT})
-    # Set emulator frame
-    config.FRAME_EMULATOR = Image.frombytes(
-        'RGB', (config.SCREENSHOT.width, config.SCREENSHOT.height), config.SCREENSHOT.image)
+    try:
+        sct.get_pixels(
+            {'top': config.EMULATOR_Y, 'left': config.EMULATOR_X, 'width': config.EMULATOR_WIDTH, 'height': config.EMULATOR_HEIGHT})
+    except mss.exception.ScreenshotError:
+        print("[ERROR]: ScreenshotError exception.")
+
+    try:
+        # Set emulator frame
+        config.FRAME_EMULATOR = Image.frombytes(
+            'RGB', (sct.width, sct.height), sct.image)
+    except ValueError:
+        print("[ERROR]: ValueError, screenshot not found.")
+        return None
+
     # Convert to RGB
     config.FRAME_EMULATOR_RGB = cv2.cvtColor(
         np.array(config.FRAME_EMULATOR), cv2.COLOR_BGR2RGB)
 
 
-def get_bounding_frame(bounding_area):
+def get_bounding_frame(sct, bounding_area):
     BOUNDING_BOX = {
         'left': config.EMULATOR_X + bounding_area['x1'],
         'top': config.EMULATOR_Y + bounding_area['y1'],
         'width': (bounding_area['x2'] - bounding_area['x1']),
         'height': (bounding_area['y2'] - bounding_area['y1']),
     }
-    config.SCREENSHOT.get_pixels(BOUNDING_BOX)
-    frame = Image.frombytes(
-        'RGB', (config.SCREENSHOT.width, config.SCREENSHOT.height), config.SCREENSHOT.image)
+
+    # Get screenshot pixels
+    try:
+        sct.get_pixels(BOUNDING_BOX)
+    except mss.exception.ScreenshotError:
+        print("[ERROR]: ScreenshotError exception.")
+
+    # Set emulator frame
+    try:
+        frame = Image.frombytes(
+            'RGB', (sct.width, sct.height), sct.image)
+    except ValueError:
+        print("[ERROR]: ValueError, screenshot not found.")
+        return None
+
     rgb_frame = cv2.cvtColor(
         np.array(frame), cv2.COLOR_BGR2RGB)
     return rgb_frame

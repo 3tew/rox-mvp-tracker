@@ -34,6 +34,8 @@ def send_message_webhook(case, options):
             options["boss_data"], options["is_abyss"], strTime, data)
     elif case == 'spawned':
         data = spawned_message_case(options["boss_data"], strTime, data)
+    elif case == 'dead':
+        data = dead_message_case(options["boss_data"], strTime, data)
     elif case == 'bot_start':
         data = bot_start_message_case(data)
     elif case == 'bot_stop':
@@ -52,7 +54,7 @@ def send_message_webhook(case, options):
 def refreshing_message_case(boss_data, isAbyss, strTime, data):
     data['username'] = 'ROX - MVP Announcer'
     data['embeds'][0]['color'] = 65504  # Blue
-    data['embeds'][0]['title'] = '📢 ' + \
+    data['embeds'][0]['title'] = ':loudspeaker: ' + \
         ('Abyss ' + boss_data['fullName']) if isAbyss else (boss_data['fullName']) + \
         (" `Development`" if config.IS_DEVELOPMENT else "")
     data['embeds'][0]['description'] = \
@@ -60,17 +62,33 @@ def refreshing_message_case(boss_data, isAbyss, strTime, data):
     data['embeds'][0]['thumbnail']['url'] = boss_data['thumbnailUrl']
 
     config.NOTICE_TIME = config.CURRENT_TIME
-    print('[' + strTime + '] ' + boss_data['fullName'] + ' is refreshing...')
+    print('[' + strTime + '] ' +
+          ('Abyss ' + boss_data['fullName'])
+          if isAbyss else (boss_data['fullName'])
+          + ' is refreshing...')
     return data
 
 
 def spawned_message_case(boss_data, strTime, data):
     data['username'] = 'ROX - MVP Tracker'
     data['embeds'][0]['color'] = 1376000  # Green
-    data['embeds'][0]['title'] = boss_data['fullName'] + \
+    data['embeds'][0]['title'] = ':white_check_mark: ' + boss_data['fullName'] + \
         (" `Development`" if config.IS_DEVELOPMENT else "")
     data['embeds'][0]['description'] = \
         '[' + boss_data['type'] + '] ปรากฏแล้ว!'
+    data['embeds'][0]['thumbnail']['url'] = boss_data['thumbnailUrl']
+
+    print('[' + strTime + '] ' + boss_data['fullName'] + ' spawned!')
+    return data
+
+
+def dead_message_case(boss_data, strTime, data):
+    data['username'] = 'ROX - MVP Tracker'
+    data['embeds'][0]['color'] = 0  # Black
+    data['embeds'][0]['title'] = ':coffin: ' + boss_data['fullName'] + \
+        (" `Development`" if config.IS_DEVELOPMENT else "")
+    data['embeds'][0]['description'] = \
+        '[' + boss_data['type'] + '] ตาย'
     data['embeds'][0]['thumbnail']['url'] = boss_data['thumbnailUrl']
 
     print('[' + strTime + '] ' + boss_data['fullName'] + ' spawned!')

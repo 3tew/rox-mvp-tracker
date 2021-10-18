@@ -5,6 +5,7 @@ import sys
 import cv2
 import numpy as np
 import time
+import mss
 from threading import Thread
 
 from repositories import func_repo
@@ -19,28 +20,31 @@ def running():
     print("[SYSTEM]: Bot started!")
     webhook_repo.send_message_webhook('bot_start', {})
 
+    # Anouncer process
+    thread = Thread(target=anounce_detector)
+    thread.start()
+
+    # Main process
     while config.IS_RUNNING:
         if config.IS_HOLD is False:
             # Set current time
             config.CURRENT_TIME = time.time()
 
             # Crop the emulator screenshot
-            func_repo.get_emulator_screenshot()
+            func_repo.get_emulator_screenshot(config.SCREENSHOT)
 
             # Initialize and render bounding
-            render_repo.render_notice_bounding()
             render_repo.render_mvp_tab_bounding()
             render_repo.render_boss_status_bounding()
             render_repo.render_disconnect_dialog_bounding()
 
             # Core Detection
-            disconnect_detector()
-            game_failed_detector()
-            anounce_detector()
-            boss_detector()
+            disconnect_detector()  # Step 1
+            game_failed_detector()  # Step 2
+            boss_detector()  # Step 3
 
-            # Render
-            render_repo.show()
+            # Render for debugging
+            # render_repo.show()
 
     # Send shutting down message
     webhook_repo.send_message_webhook('bot_stop', {})
@@ -48,36 +52,48 @@ def running():
 
 def disconnect_detector():
     config.FRAME_DISCONNECT_DIALOG = func_repo.get_bounding_frame(
-        config.DISCONNECT_DIALOG_BOUNDING_BOX)
-    hsv_frame = cv2.cvtColor(
-        np.array(config.FRAME_DISCONNECT_DIALOG), cv2.COLOR_BGR2HSV)
-    if detect_white_color(hsv_frame):
-        # Send disconnect message
-        print('[ERROR]: The game has disconnected.')
-        webhook_repo.send_message_webhook('disconnect', {})
-        config.IS_RUNNING = False
-        sys.exit()
+        config.SCREENSHOT, config.DISCONNECT_DIALOG_BOUNDING_BOX)
+    if config.FRAME_DISCONNECT_DIALOG is not None:
+        hsv_frame = cv2.cvtColor(
+            np.array(config.FRAME_DISCONNECT_DIALOG), cv2.COLOR_BGR2HSV)
+        if detect_white_color(hsv_frame):
+            # Send disconnect message
+            print('[ERROR]: The game has disconnected.')
+            webhook_repo.send_message_webhook('disconnect', {})
+            config.IS_RUNNING = False
+            sys.exit()
 
 
 def game_failed_detector():
     config.FRAME_DISCONNECT_DIALOG = func_repo.get_bounding_frame(
-        config.BOSS_STATUS_BOUNDING_BOX_3)
-    hsv_frame = cv2.cvtColor(
-        np.array(config.FRAME_DISCONNECT_DIALOG), cv2.COLOR_BGR2HSV)
-    if detect_gray_color(hsv_frame):
-        # Send disconnect message
-        print('[ERROR]: The game crashed exit.')
-        webhook_repo.send_message_webhook('error', {"reason": "Game crashed"})
-        config.IS_RUNNING = False
-        sys.exit()
+        config.SCREENSHOT, config.BOSS_STATUS_BOUNDING_BOX_3)
+    if config.FRAME_DISCONNECT_DIALOG is not None:
+        hsv_frame = cv2.cvtColor(
+            np.array(config.FRAME_DISCONNECT_DIALOG), cv2.COLOR_BGR2HSV)
+        if detect_gray_color(hsv_frame):
+            # Send disconnect message
+            print('[ERROR]: The game crashed exit.')
+            webhook_repo.send_message_webhook(
+                'error', {"reason": "Game crashed"})
+            config.IS_RUNNING = False
+            sys.exit()
 
 
 def anounce_detector():
-    config.FRAME_NOTICE_TEXT = func_repo.get_bounding_frame(
-        config.NOTICE_BOUNDING_BOX)
-    config.FRAME_NOTICE_TEXT_RECOG = recognition_repo.blackwhite_image_processing(
-        config.FRAME_NOTICE_TEXT)
-    recognition_repo.refreshing_text_detector(config.FRAME_NOTICE_TEXT_RECOG)
+    self_screenshot = mss.mss()
+    while config.IS_RUNNING:
+        # Crop the emulator screenshot
+        func_repo.get_emulator_screenshot(self_screenshot)
+        # Initialize and render bounding
+        render_repo.render_notice_bounding()
+        # Process
+        config.FRAME_NOTICE_TEXT = func_repo.get_bounding_frame(
+            self_screenshot, config.NOTICE_BOUNDING_BOX)
+        if config.FRAME_NOTICE_TEXT is not None:
+            config.FRAME_NOTICE_TEXT_RECOG = recognition_repo.blackwhite_image_processing(
+                config.FRAME_NOTICE_TEXT)
+            recognition_repo.refreshing_text_detector(
+                config.FRAME_NOTICE_TEXT_RECOG)
 
 
 def boss_detector():
@@ -180,6 +196,19 @@ def detect_green_color(hsv_frame):
     mask = cv2.bitwise_or(mask1, mask2)
     # Checking
     if cv2.countNonZero(mask) > 0:  # เขียวแล้ว
+        return True
+    else:
+        return False
+
+
+def detect_red_color(hsv_frame):
+    low_red = np.array([0, 40, 40])
+    high_red = np.array([20, 255, 255])
+    mask1 = cv2.inRange(hsv_frame, low_red, high_red)
+    mask2 = cv2.inRange(hsv_frame, low_red, high_red)
+    mask = cv2.bitwise_or(mask1, mask2)
+    # Checking
+    if cv2.countNonZero(mask) > 0:  # แดงแล้ว
         return True
     else:
         return False

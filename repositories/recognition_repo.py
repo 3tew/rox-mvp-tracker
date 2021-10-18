@@ -62,28 +62,28 @@ def refreshing_text_detector(frame):
             # MINI
             elif boss_name in ['eclipse']:
                 webhook_repo.send_message_webhook(
-                    'refreshing', {"boss_data": config.BOSS_DATAS['eclipse']})
+                    'refreshing', {"boss_data": config.BOSS_DATAS['eclipse'], "is_abyss": isAbyss})
             elif boss_name in ['mastering']:
                 webhook_repo.send_message_webhook(
-                    'refreshing', {"boss_data": config.BOSS_DATAS['mastering']})
+                    'refreshing', {"boss_data": config.BOSS_DATAS['mastering'], "is_abyss": isAbyss})
             elif boss_name in ['ghosting']:
                 webhook_repo.send_message_webhook(
-                    'refreshing', {"boss_data": config.BOSS_DATAS['ghosting']})
+                    'refreshing', {"boss_data": config.BOSS_DATAS['ghosting'], "is_abyss": isAbyss})
             elif boss_name in ['toad']:
                 webhook_repo.send_message_webhook(
-                    'refreshing', {"boss_data": config.BOSS_DATAS['toad']})
+                    'refreshing', {"boss_data": config.BOSS_DATAS['toad'], "is_abyss": isAbyss})
             elif boss_name in ['dragon fly', 'dragon', 'fly']:
                 webhook_repo.send_message_webhook(
-                    'refreshing', {"boss_data": config.BOSS_DATAS['dragonfly']})
+                    'refreshing', {"boss_data": config.BOSS_DATAS['dragonfly'], "is_abyss": isAbyss})
             elif boss_name in ['king dramoh', 'king', 'dramoh']:
                 webhook_repo.send_message_webhook(
-                    'refreshing', {"boss_data": config.BOSS_DATAS['kingdramoh']})
+                    'refreshing', {"boss_data": config.BOSS_DATAS['kingdramoh'], "is_abyss": isAbyss})
             elif boss_name in ['angeling']:
                 webhook_repo.send_message_webhook(
-                    'refreshing', {"boss_data": config.BOSS_DATAS['angeling']})
+                    'refreshing', {"boss_data": config.BOSS_DATAS['angeling'], "is_abyss": isAbyss})
             elif boss_name in ['deviling']:
                 webhook_repo.send_message_webhook(
-                    'refreshing', {"boss_data": config.BOSS_DATAS['deviling']})
+                    'refreshing', {"boss_data": config.BOSS_DATAS['deviling'], "is_abyss": isAbyss})
 
 
 def blackwhite_image_processing(frame):
