@@ -7,9 +7,9 @@ import numpy as np
 
 def render_notice_bounding():
     config.NOTICE_BOUNDING_BOX["x1"] = int((30 * config.EMULATOR_WIDTH) / 100)
-    config.NOTICE_BOUNDING_BOX["y1"] = int((23 * config.EMULATOR_HEIGHT) / 100)
-    config.NOTICE_BOUNDING_BOX["x2"] = int((50 * config.EMULATOR_WIDTH) / 100)
-    config.NOTICE_BOUNDING_BOX["y2"] = int((26 * config.EMULATOR_HEIGHT) / 100)
+    config.NOTICE_BOUNDING_BOX["y1"] = int((23.75 * config.EMULATOR_HEIGHT) / 100)
+    config.NOTICE_BOUNDING_BOX["x2"] = int((70 * config.EMULATOR_WIDTH) / 100)
+    config.NOTICE_BOUNDING_BOX["y2"] = int((27 * config.EMULATOR_HEIGHT) / 100)
 
     if config.IS_DEVELOPMENT:
         cv2.rectangle(
@@ -277,4 +277,4 @@ def show():
 
         # Rendering
         cv2.imshow('RO:X - MVP Tracker v%s - Debugging' % config.VERSION,
-                   np.hstack([resized]))
+                   np.hstack([config.FRAME_NOTICE_TEXT_RECOG]))

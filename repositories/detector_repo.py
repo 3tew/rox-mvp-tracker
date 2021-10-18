@@ -34,7 +34,7 @@ def running():
         # Core Detection
         disconnect_detector()
         game_failed_detector()
-        # anounce_detector()
+        anounce_detector()
         boss_detector()
 
         # Render

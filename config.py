@@ -2,7 +2,7 @@
 # Initialize Global Variables
 IS_DEVELOPMENT = False
 IS_RUNNING = True
-VERSION = '1.3a'
+VERSION = '1.4'
 TITLE = 'RO:X Next Generation - MVP Tracker version ' + VERSION
 FULL_TITLE = ''
 PID = ''
@@ -51,28 +51,28 @@ MINI_BOUNDING_BOX_CENTER_X = 0
 MINI_BOUNDING_BOX_CENTER_Y = 0
 
 BOSS_NAMES = [
-    'Phreeoni',
-    'Mistress',
-    'Kraken',
-    'Eddga',
-    'Maya',
-    'Pharaoh',
-    'Orc Hero',
-    'Hero',
-    'Orc Lord',
-    'Lord',
-    'Eclipse',
-    'Mastering',
-    'Ghosting',
-    'Toad',
-    'Dragon Fly',
-    'Dragon',
-    'Fly',
-    'King Dramoh',
-    'King',
-    'Dramoh',
-    'Angeling',
-    'Deviling',
+    'phreeoni',
+    'mistress',
+    'kraken',
+    'eddga',
+    'maya',
+    'pharaoh',
+    'orc hero',
+    'hero',
+    'orc Lord',
+    'lord',
+    'eclipse',
+    'mastering',
+    'ghosting',
+    'toad',
+    'dragon fly',
+    'dragon',
+    'fly',
+    'king dramoh',
+    'king',
+    'dramoh',
+    'angeling',
+    'deviling',
 ]
 
 SPAWNED_TIME = {

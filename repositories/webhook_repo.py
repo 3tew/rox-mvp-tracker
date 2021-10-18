@@ -53,12 +53,11 @@ def refreshing_message_case(boss_data, isAbyss, strTime, data):
     data['username'] = 'ROX - MVP Announcer'
     data['embeds'][0]['color'] = 65504  # Blue
     data['embeds'][0]['title'] = \
-        'Abyss ' + boss_data['fullName'] if isAbyss else boss_data['fullName'] + \
+        ('Abyss ' + boss_data['fullName']) if isAbyss else (boss_data['fullName']) + \
         (" `Development`" if config.IS_DEVELOPMENT else "")
     data['embeds'][0]['description'] = \
-        '[' + boss_data['type'] + '] กำลังจะรีเฟรช... (ประกาศ)'
-    data['embeds'][0]['thumbnail']['url'] = \
-        '[' + boss_data['thumbnailUrl']
+        '[' + boss_data['type'] + '] กำลังจะรีเฟรช... (ประกาศแล้ว)'
+    data['embeds'][0]['thumbnail']['url'] = boss_data['thumbnailUrl']
 
     config.NOTICE_TIME = config.CURRENT_TIME
     print('[' + strTime + '] ' + boss_data['fullName'] + ' is refreshing...')
@@ -89,7 +88,7 @@ def bot_start_message_case(data):
 
 def bot_stop_message_case(data):
     data['embeds'][0]['color'] = 16711680  # Red
-    data['embeds'][0]['title'] = 'Bot shutting down' + \
+    data['embeds'][0]['title'] = 'Bot is shutting down' + \
         (" `Development`" if config.IS_DEVELOPMENT else "")
     data['embeds'][0]['description'] = 'กำลังปิดการทำงาน'
     return data

@@ -17,11 +17,13 @@ def refreshing_text_detector(frame):
     text = pytesseract.image_to_string(frame)
     text = text.strip()
     text = text.lower()
-    print("[SYSTEM]: Text = '" + text + "'")  # Debugging
 
-    boss_name = any(boss_name in text for boss_name in config.BOSS_NAMES)
-    if boss_name != None:
-        if (config.CURRENT_TIME - config.NOTICE_TIME) > 15:  # ระยะเวลาระหว่างประกาศ 15 วินาที
+    if config.IS_DEVELOPMENT and (len(text) > 0):
+        print("[SYSTEM]: Text = '" + text + "'")  # Debugging
+
+    for boss_name in config.BOSS_NAMES:
+        # ระยะเวลาระหว่างประกาศ 30 วินาที
+        if (boss_name in text) and (config.CURRENT_TIME - config.NOTICE_TIME) > 30:
             # Checking Abyss type
             isAbyss = True if 'abyss' in text else False
             # MVP
@@ -94,7 +96,7 @@ def blackwhite_image_processing(frame):
     # Convert the mat type from float to uint8:
     gainDivision = gainDivision.astype("uint8")
     # Convert RGB to grayscale:
-    grayscaleImage = cv2.cvtColor(gainDivision, cv2.COLOR_BGR2GRAY)
+    grayscaleImage = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
     # Get binary image via Otsu:
     _, frame = cv2.threshold(
         grayscaleImage, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)
