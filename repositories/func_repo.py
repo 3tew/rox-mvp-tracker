@@ -22,8 +22,11 @@ def on_press(key):
         k = key.char  # single-char keys
     except:
         k = key.name  # other keys
-    if k in ['q']:  # keys of interest
-        if k == 'q':
+    if k in ['q', 'h']:  # keys of interest
+        if k == 'h':
+            config.IS_HOLD ^= True
+            print("[SYSTEM]: Paused!") if config.IS_HOLD else print("[SYSTEM]: Unpaused!")
+        elif k == 'q':
             print("[SYSTEM]: Shutting down...")
             # Break while loop
             config.IS_RUNNING = False

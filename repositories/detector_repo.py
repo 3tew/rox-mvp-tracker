@@ -20,26 +20,27 @@ def running():
     webhook_repo.send_message_webhook('bot_start', {})
 
     while config.IS_RUNNING:
-        # Set current time
-        config.CURRENT_TIME = time.time()
+        if config.IS_HOLD is False:
+            # Set current time
+            config.CURRENT_TIME = time.time()
 
-        # Crop the emulator screenshot
-        func_repo.get_emulator_screenshot()
+            # Crop the emulator screenshot
+            func_repo.get_emulator_screenshot()
 
-        # Initialize and render bounding
-        render_repo.render_notice_bounding()
-        render_repo.render_mvp_tab_bounding()
-        render_repo.render_boss_status_bounding()
-        render_repo.render_disconnect_dialog_bounding()
+            # Initialize and render bounding
+            render_repo.render_notice_bounding()
+            render_repo.render_mvp_tab_bounding()
+            render_repo.render_boss_status_bounding()
+            render_repo.render_disconnect_dialog_bounding()
 
-        # Core Detection
-        disconnect_detector()
-        game_failed_detector()
-        anounce_detector()
-        boss_detector()
+            # Core Detection
+            disconnect_detector()
+            game_failed_detector()
+            anounce_detector()
+            boss_detector()
 
-        # Render
-        render_repo.show()
+            # Render
+            render_repo.show()
 
     # Send shutting down message
     webhook_repo.send_message_webhook('bot_stop', {})
