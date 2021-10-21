@@ -18,6 +18,13 @@ root = Tk()
 root.withdraw()
 
 
+def is_bot_ok():
+    if config.IS_RUNNING and config.IS_HOLD is False and config.IS_DISCONNECTED is False and config.IS_CRASHED is False:
+        return True
+    else:
+        return False
+
+
 def on_press(key):
     try:
         k = key.char  # single-char keys
@@ -37,31 +44,32 @@ def on_press(key):
 
 
 def mouse_click_mvp_tab():
-    x = (config.EMULATOR_X + config.MVP_BOUNDING_BOX_CENTER_X)
-    y = (config.EMULATOR_Y + config.MVP_BOUNDING_BOX_CENTER_Y)
-    pyautogui.click(x=x, y=y)
-    time.sleep(0.4)  # Delay 400 milliseconds
+    if is_bot_ok():
+        x = (config.EMULATOR_X + config.MVP_BOUNDING_BOX_CENTER_X)
+        y = (config.EMULATOR_Y + config.MVP_BOUNDING_BOX_CENTER_Y)
+        pyautogui.click(x=x, y=y)
 
 
 def mouse_click_mini_tab():
-    x = (config.EMULATOR_X + config.MINI_BOUNDING_BOX_CENTER_X)
-    y = (config.EMULATOR_Y + config.MINI_BOUNDING_BOX_CENTER_Y)
-    pyautogui.click(x=x, y=y)
-    time.sleep(0.4)  # Delay 400 milliseconds
+    if is_bot_ok():
+        x = (config.EMULATOR_X + config.MINI_BOUNDING_BOX_CENTER_X)
+        y = (config.EMULATOR_Y + config.MINI_BOUNDING_BOX_CENTER_Y)
+        pyautogui.click(x=x, y=y)
 
 
 def mouse_draging():
-    x1 = (config.EMULATOR_X + config.MOUSE_DRAG_CENTER_X_1)
-    y1 = (config.EMULATOR_Y + config.MOUSE_DRAG_CENTER_Y_1)
-    x2 = (config.EMULATOR_X + config.MOUSE_DRAG_CENTER_X_2)
-    y2 = (config.EMULATOR_Y + config.MOUSE_DRAG_CENTER_Y_2) - 50  # Calibrating
-    pyautogui.moveTo(x=x1, y=y1)
-    pyautogui.mouseDown(button='left')
-    pyautogui.dragTo(x=x2, y=y2, button='left',
-                     duration=0.35, mouseDownUp=False)
-    time.sleep(0.3)  # Delay 300 milliseconds
-    pyautogui.mouseUp(button='left')
-    time.sleep(0.3)  # Delay 300 milliseconds
+    if is_bot_ok():
+        x1 = (config.EMULATOR_X + config.MOUSE_DRAG_CENTER_X_1)
+        y1 = (config.EMULATOR_Y + config.MOUSE_DRAG_CENTER_Y_1)
+        x2 = (config.EMULATOR_X + config.MOUSE_DRAG_CENTER_X_2)
+        y2 = (config.EMULATOR_Y + config.MOUSE_DRAG_CENTER_Y_2) - \
+            150  # Calibrating
+        pyautogui.moveTo(x=x1, y=y1)
+        pyautogui.mouseDown(button='left')
+        pyautogui.dragTo(x=x2, y=y2, button='left',
+                         duration=0.25, mouseDownUp=False)
+        time.sleep(0.3)  # Delay 300 milliseconds
+        pyautogui.mouseUp(button='left')
 
 
 def alert(title, message, kind='info'):
