@@ -48,6 +48,7 @@ def mouse_click_mvp_tab():
         x = (config.EMULATOR_X + config.MVP_BOUNDING_BOX_CENTER_X)
         y = (config.EMULATOR_Y + config.MVP_BOUNDING_BOX_CENTER_Y)
         pyautogui.click(x=x, y=y)
+        time.sleep(0.3)  # Delay 300 milliseconds
 
 
 def mouse_click_mini_tab():
@@ -55,6 +56,7 @@ def mouse_click_mini_tab():
         x = (config.EMULATOR_X + config.MINI_BOUNDING_BOX_CENTER_X)
         y = (config.EMULATOR_Y + config.MINI_BOUNDING_BOX_CENTER_Y)
         pyautogui.click(x=x, y=y)
+        time.sleep(0.3)  # Delay 300 milliseconds
 
 
 def mouse_draging():
@@ -64,7 +66,6 @@ def mouse_draging():
         x2 = (config.EMULATOR_X + config.MOUSE_DRAG_CENTER_X_2)
         y2 = (config.EMULATOR_Y + config.MOUSE_DRAG_CENTER_Y_2) - \
             50  # Calibrating
-        time.sleep(0.3)  # Delay 300 milliseconds
         pyautogui.moveTo(x=x1, y=y1)
         pyautogui.mouseDown(button='left')
         pyautogui.dragTo(x=x2, y=y2, button='left',
