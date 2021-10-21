@@ -93,7 +93,7 @@ def refreshing_message_case(boss_data, isAbyss, strTime, data):
 
     config.NOTICE_TIME = config.CURRENT_TIME
     print(
-        ('[' + strTime + '] ' + 'Abyss ' + boss_data['fullName'])
+        ('[' + strTime + '] ' + 'Abyssal ' + boss_data['fullName'])
         if isAbyss else ('[' + strTime + '] ' + boss_data['fullName'])
         + ' is refreshing...')
     return data

@@ -63,12 +63,12 @@ def mouse_draging():
         y1 = (config.EMULATOR_Y + config.MOUSE_DRAG_CENTER_Y_1)
         x2 = (config.EMULATOR_X + config.MOUSE_DRAG_CENTER_X_2)
         y2 = (config.EMULATOR_Y + config.MOUSE_DRAG_CENTER_Y_2) - \
-            150  # Calibrating
+            60  # Calibrating
         pyautogui.moveTo(x=x1, y=y1)
         pyautogui.mouseDown(button='left')
         pyautogui.dragTo(x=x2, y=y2, button='left',
-                         duration=0.25, mouseDownUp=False)
-        time.sleep(0.3)  # Delay 300 milliseconds
+                         duration=0.35, mouseDownUp=False)
+        time.sleep(0.275)  # Delay 275 milliseconds
         pyautogui.mouseUp(button='left')
 
 
