@@ -68,6 +68,7 @@ BOSS_NAMES = [
     'eclipse',
     'mastering',
     'ghosting',
+    'ghost',
     'toad',
     'dragon fly',
     'dragon',
