@@ -106,6 +106,7 @@ def anounce_detector():
                     config.FRAME_NOTICE_TEXT)
                 recognition_repo.refreshing_text_detector(
                     config.FRAME_NOTICE_TEXT_RECOG)
+        time.sleep(0.5)  # Delay 500 milliseconds
     sys.exit()
 
 
