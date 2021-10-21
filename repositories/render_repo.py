@@ -131,38 +131,38 @@ def render_boss_status_bounding():
     config.BOSS_STATUS_BOUNDING_BOX_1["x1"] = int(
         (38 * config.EMULATOR_WIDTH) / 100)
     config.BOSS_STATUS_BOUNDING_BOX_1["y1"] = int(
-        (32 * config.EMULATOR_HEIGHT) / 100)
+        (30 * config.EMULATOR_HEIGHT) / 100)
     config.BOSS_STATUS_BOUNDING_BOX_1["x2"] = int(
         (46 * config.EMULATOR_WIDTH) / 100)
     config.BOSS_STATUS_BOUNDING_BOX_1["y2"] = int(
-        (35.5 * config.EMULATOR_HEIGHT) / 100)
+        (37.5 * config.EMULATOR_HEIGHT) / 100)
 
     config.BOSS_STATUS_BOUNDING_BOX_2["x1"] = int(
         (38 * config.EMULATOR_WIDTH) / 100)
     config.BOSS_STATUS_BOUNDING_BOX_2["y1"] = int(
-        (48 * config.EMULATOR_HEIGHT) / 100)
+        (46 * config.EMULATOR_HEIGHT) / 100)
     config.BOSS_STATUS_BOUNDING_BOX_2["x2"] = int(
         (46 * config.EMULATOR_WIDTH) / 100)
     config.BOSS_STATUS_BOUNDING_BOX_2["y2"] = int(
-        (51.5 * config.EMULATOR_HEIGHT) / 100)
+        (53.5 * config.EMULATOR_HEIGHT) / 100)
 
     config.BOSS_STATUS_BOUNDING_BOX_3["x1"] = int(
         (38 * config.EMULATOR_WIDTH) / 100)
     config.BOSS_STATUS_BOUNDING_BOX_3["y1"] = int(
-        (64 * config.EMULATOR_HEIGHT) / 100)
+        (62 * config.EMULATOR_HEIGHT) / 100)
     config.BOSS_STATUS_BOUNDING_BOX_3["x2"] = int(
         (46 * config.EMULATOR_WIDTH) / 100)
     config.BOSS_STATUS_BOUNDING_BOX_3["y2"] = int(
-        (67.5 * config.EMULATOR_HEIGHT) / 100)
+        (69.5 * config.EMULATOR_HEIGHT) / 100)
 
     config.BOSS_STATUS_BOUNDING_BOX_4["x1"] = int(
         (38 * config.EMULATOR_WIDTH) / 100)
     config.BOSS_STATUS_BOUNDING_BOX_4["y1"] = int(
-        (80 * config.EMULATOR_HEIGHT) / 100)
+        (78 * config.EMULATOR_HEIGHT) / 100)
     config.BOSS_STATUS_BOUNDING_BOX_4["x2"] = int(
         (46 * config.EMULATOR_WIDTH) / 100)
     config.BOSS_STATUS_BOUNDING_BOX_4["y2"] = int(
-        (83.5 * config.EMULATOR_HEIGHT) / 100)
+        (85.5 * config.EMULATOR_HEIGHT) / 100)
 
     # Setup mouse drag position
     config.MOUSE_DRAG_CENTER_X_1 = int(config.BOSS_STATUS_BOUNDING_BOX_4["x1"] + (
