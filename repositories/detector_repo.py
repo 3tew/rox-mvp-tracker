@@ -60,7 +60,7 @@ def disconnect_detector():
                     webhook_repo.send_message_webhook('disconnect', {})
                     config.IS_RUNNING = False
                     sys.exit()
-        time.sleep(0.5)  # Delay 500 milliseconds
+        time.sleep(1.0)  # Delay 1000 milliseconds
     sys.exit()
 
 
@@ -86,7 +86,7 @@ def game_failed_detector():
                         'error', {"reason": "Game crashed"})
                     config.IS_RUNNING = False
                     sys.exit()
-        time.sleep(0.5)  # Delay 500 milliseconds
+        time.sleep(1.0)  # Delay 1000 milliseconds
     sys.exit()
 
 
@@ -108,7 +108,7 @@ def anounce_detector():
                     config.FRAME_NOTICE_TEXT)
                 recognition_repo.refreshing_text_detector(
                     config.FRAME_NOTICE_TEXT_RECOG)
-        time.sleep(0.5)  # Delay 500 milliseconds
+        time.sleep(0.25)  # Delay 250 milliseconds
     sys.exit()
 
 

@@ -77,7 +77,9 @@ BOSS_NAMES = [
     'king',
     'dramoh',
     'angeling',
+    'angel',
     'deviling',
+    'devil',
 ]
 
 SPAWNED_TIME = {
