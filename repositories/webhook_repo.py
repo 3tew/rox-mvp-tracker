@@ -46,9 +46,14 @@ def send_message_webhook(case, options):
         data = disconnect_message_case(data)
 
     # sending get request and saving the response as response object
-    for url in config.DISCORD_WEBHOOK_URLS:
-        thread = Thread(target=request_discord_webhook(url, data))
+    if config.IS_DEVELOPMENT:
+        thread = Thread(target=request_discord_webhook(
+            config.DEVELOPER_WEBHOOK, data))
         thread.start()
+    else:
+        for url in config.DISCORD_WEBHOOK_URLS:
+            thread = Thread(target=request_discord_webhook(url, data))
+            thread.start()
 
 
 def send_logging_webhook(message):
@@ -85,7 +90,7 @@ def refreshing_message_case(boss_data, isAbyss, strTime, data):
     data['username'] = 'ROX - MVP Announcer'
     data['embeds'][0]['color'] = 65504  # Blue
     data['embeds'][0]['title'] = \
-        (':loudspeaker: Abyss ' + boss_data['fullName']) if isAbyss else (':loudspeaker: ' + boss_data['fullName']) + \
+        (':loudspeaker: Abyssal ' + boss_data['fullName']) if isAbyss else (':loudspeaker: ' + boss_data['fullName']) + \
         (" `Development`" if config.IS_DEVELOPMENT else "")
     data['embeds'][0]['description'] = \
         '[' + boss_data['type'] + '] กำลังจะรีเฟรช... (ประกาศแล้ว)'
@@ -93,7 +98,7 @@ def refreshing_message_case(boss_data, isAbyss, strTime, data):
 
     config.NOTICE_TIME = config.CURRENT_TIME
     print(
-        ('[' + strTime + '] ' + 'Abyss ' + boss_data['fullName'])
+        ('[' + strTime + '] ' + 'Abyssal ' + boss_data['fullName'])
         if isAbyss else ('[' + strTime + '] ' + boss_data['fullName'])
         + ' is refreshing...')
     return data
