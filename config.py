@@ -72,7 +72,6 @@ BOSS_NAMES = [
     'toad',
     'dragon fly',
     'dragon',
-    'fly',
     'king dramoh',
     'king',
     'dramoh',
