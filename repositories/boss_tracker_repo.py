@@ -12,7 +12,7 @@ def spawn_detecting(sct, boss_data, bounding_area):
     # Get bounding frame
     frame = func_repo.get_bounding_frame(sct, bounding_area)
     # Checking green background
-    if detector_repo.detect_green_color(frame):
+    if detector_repo.detect_color(frame, [45, 40, 50], [65, 255, 255]):
         webhook_repo.send_message_webhook(
             'spawned', {"boss_data": boss_data})
         config.SPAWNED_TIME[boss_data["name"]] = config.CURRENT_TIME
