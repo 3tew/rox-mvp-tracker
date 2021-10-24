@@ -163,8 +163,10 @@ def boss_status_detector(sct, bossType, setNumber):
 
 
 def detect_color(hsv_frame, low_color, high_color):
-    mask1 = cv2.inRange(hsv_frame, low_color, high_color)
-    mask2 = cv2.inRange(hsv_frame, low_color, high_color)
+    low = np.array(low_color)
+    high = np.array(high_color)
+    mask1 = cv2.inRange(hsv_frame, low, high)
+    mask2 = cv2.inRange(hsv_frame, low, high)
     mask = cv2.bitwise_or(mask1, mask2)
     # Checking
     if cv2.countNonZero(mask) > 0:
