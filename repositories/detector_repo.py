@@ -41,6 +41,7 @@ def running():
 def disconnect_detector():
     self_screenshot = mss.mss()
     while config.IS_RUNNING:
+        time.sleep(1.0)  # Delay 1000 milliseconds
         if config.IS_HOLD is False and config.IS_DISCONNECTED is False and config.IS_CRASHED is False:
             # Set current time
             config.CURRENT_TIME = time.time()
@@ -54,19 +55,19 @@ def disconnect_detector():
             if config.FRAME_DISCONNECT_DIALOG is not None:
                 hsv_frame = cv2.cvtColor(
                     np.array(config.FRAME_DISCONNECT_DIALOG), cv2.COLOR_BGR2HSV)
-                if detect_white_color(hsv_frame):
+                if detect_color(hsv_frame, [100, 0, 200], [125, 40, 255]):
                     # Send disconnect message
                     print('[ERROR]: The game has disconnected.')
                     webhook_repo.send_message_webhook('disconnect', {})
                     config.IS_RUNNING = False
                     sys.exit()
-        time.sleep(1.0)  # Delay 1000 milliseconds
     sys.exit()
 
 
 def game_failed_detector():
     self_screenshot = mss.mss()
     while config.IS_RUNNING:
+        time.sleep(1.0)  # Delay 1000 milliseconds
         if config.IS_HOLD is False and config.IS_DISCONNECTED is False and config.IS_CRASHED is False:
             # Set current time
             config.CURRENT_TIME = time.time()
@@ -79,20 +80,20 @@ def game_failed_detector():
             if config.FRAME_DISCONNECT_DIALOG is not None:
                 hsv_frame = cv2.cvtColor(
                     np.array(config.FRAME_DISCONNECT_DIALOG), cv2.COLOR_BGR2HSV)
-                if detect_gray_color(hsv_frame):
+                if detect_color(hsv_frame, [100, 0, 10], [125, 40, 100]):
                     # Send disconnect message
                     print('[ERROR]: The game crashed exit.')
                     webhook_repo.send_message_webhook(
                         'error', {"reason": "Game crashed"})
                     config.IS_RUNNING = False
                     sys.exit()
-        time.sleep(1.0)  # Delay 1000 milliseconds
     sys.exit()
 
 
 def anounce_detector():
     self_screenshot = mss.mss()
     while config.IS_RUNNING:
+        time.sleep(0.25)  # Delay 250 milliseconds
         if config.IS_HOLD is False and config.IS_DISCONNECTED is False and config.IS_CRASHED is False:
             # Set current time
             config.CURRENT_TIME = time.time()
@@ -108,7 +109,6 @@ def anounce_detector():
                     config.FRAME_NOTICE_TEXT)
                 recognition_repo.refreshing_text_detector(
                     config.FRAME_NOTICE_TEXT_RECOG)
-        time.sleep(0.25)  # Delay 250 milliseconds
     sys.exit()
 
 
@@ -162,40 +162,12 @@ def boss_status_detector(sct, bossType, setNumber):
                 boss_tracker_repo.checking_box_4(sct, 'deviling')
 
 
-def detect_white_color(hsv_frame):
-    low_white = np.array([100, 0, 200])
-    high_white = np.array([125, 40, 255])
-    mask1 = cv2.inRange(hsv_frame, low_white, high_white)
-    mask2 = cv2.inRange(hsv_frame, low_white, high_white)
+def detect_color(hsv_frame, low_color, high_color):
+    mask1 = cv2.inRange(hsv_frame, low_color, high_color)
+    mask2 = cv2.inRange(hsv_frame, low_color, high_color)
     mask = cv2.bitwise_or(mask1, mask2)
     # Checking
-    if cv2.countNonZero(mask) > 0:  # ขาวแล้ว
-        return True
-    else:
-        return False
-
-
-def detect_gray_color(hsv_frame):
-    low_white = np.array([100, 0, 10])
-    high_white = np.array([125, 40, 100])
-    mask1 = cv2.inRange(hsv_frame, low_white, high_white)
-    mask2 = cv2.inRange(hsv_frame, low_white, high_white)
-    mask = cv2.bitwise_or(mask1, mask2)
-    # Checking
-    if cv2.countNonZero(mask) > 0:  # ขาวแล้ว
-        return True
-    else:
-        return False
-
-
-def detect_green_color(hsv_frame):
-    low_green = np.array([45, 40, 50])
-    high_green = np.array([65, 255, 255])
-    mask1 = cv2.inRange(hsv_frame, low_green, high_green)
-    mask2 = cv2.inRange(hsv_frame, low_green, high_green)
-    mask = cv2.bitwise_or(mask1, mask2)
-    # Checking
-    if cv2.countNonZero(mask) > 0:  # เขียวแล้ว
+    if cv2.countNonZero(mask) > 0:
         return True
     else:
         return False
