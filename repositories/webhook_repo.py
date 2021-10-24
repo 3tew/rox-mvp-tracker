@@ -1,9 +1,21 @@
 # -*- coding: utf-8 -*-
 import config
 
+import logging
 import requests
 from threading import Thread
 from datetime import datetime
+
+from requests.adapters import HTTPAdapter
+from requests.packages.urllib3.util.retry import Retry
+
+
+logging.basicConfig(
+    filename='error.log',
+    level=logging.ERROR,
+    format='%(asctime)s %(levelname)s %(name)s %(message)s'
+)
+logger = logging.getLogger(__name__)
 
 
 def send_message_webhook(case, options):
@@ -175,11 +187,16 @@ def logging_message_case(data, message):
 
 
 def request_discord_webhook(url, data):
-    result = requests.post(url, json=data)
     try:
-        result.raise_for_status()
-    except requests.exceptions.HTTPError as err:
-        print("[WEBHOOK]: ErrorException, " + err)
-    else:
+        s = requests.Session()
+        retries = Retry(total=5,
+                        backoff_factor=1,
+                        status_forcelist=[502, 503, 504])
+        s.mount('https://', HTTPAdapter(max_retries=retries))
+        
+        result = s.post(url, json=data)
+        
         print("[SYSTEM]: Payload delivered successfully, code {}.".format(
             result.status_code))
+    except requests.exceptions.RequestException as err:
+        logging.error(err)
