@@ -6,7 +6,7 @@ IS_RUNNING = True
 IS_HOLD = False
 IS_DISCONNECTED = False
 IS_CRASHED = False
-VERSION = '1.6'
+VERSION = '1.6-optimize'
 TITLE = 'RO:X Next Generation - MVP Tracker version ' + VERSION
 FULL_TITLE = ''
 PID = ''
@@ -68,12 +68,10 @@ BOSS_NAMES = [
     'eclipse',
     'mastering',
     'ghosting',
+    'ghost',
     'toad',
     'dragon fly',
-    'dragon',
-    'fly',
     'king dramoh',
-    'king',
     'dramoh',
     'angeling',
     'deviling',

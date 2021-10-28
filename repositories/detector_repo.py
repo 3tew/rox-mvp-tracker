@@ -41,6 +41,7 @@ def running():
 def disconnect_detector():
     self_screenshot = mss.mss()
     while config.IS_RUNNING:
+        time.sleep(1.0)  # Delay 1000 milliseconds
         if config.IS_HOLD is False and config.IS_DISCONNECTED is False and config.IS_CRASHED is False:
             # Set current time
             config.CURRENT_TIME = time.time()
@@ -54,7 +55,7 @@ def disconnect_detector():
             if config.FRAME_DISCONNECT_DIALOG is not None:
                 hsv_frame = cv2.cvtColor(
                     np.array(config.FRAME_DISCONNECT_DIALOG), cv2.COLOR_BGR2HSV)
-                if detect_white_color(hsv_frame):
+                if detect_color(hsv_frame, [100, 0, 200], [125, 40, 255]):
                     # Send disconnect message
                     print('[ERROR]: The game has disconnected.')
                     webhook_repo.send_message_webhook('disconnect', {})
@@ -66,6 +67,7 @@ def disconnect_detector():
 def game_failed_detector():
     self_screenshot = mss.mss()
     while config.IS_RUNNING:
+        time.sleep(1.0)  # Delay 1000 milliseconds
         if config.IS_HOLD is False and config.IS_DISCONNECTED is False and config.IS_CRASHED is False:
             # Set current time
             config.CURRENT_TIME = time.time()
@@ -78,7 +80,7 @@ def game_failed_detector():
             if config.FRAME_DISCONNECT_DIALOG is not None:
                 hsv_frame = cv2.cvtColor(
                     np.array(config.FRAME_DISCONNECT_DIALOG), cv2.COLOR_BGR2HSV)
-                if detect_gray_color(hsv_frame):
+                if detect_color(hsv_frame, [100, 0, 10], [125, 40, 100]):
                     # Send disconnect message
                     print('[ERROR]: The game crashed exit.')
                     webhook_repo.send_message_webhook(
@@ -91,6 +93,7 @@ def game_failed_detector():
 def anounce_detector():
     self_screenshot = mss.mss()
     while config.IS_RUNNING:
+        time.sleep(0.25)  # Delay 250 milliseconds
         if config.IS_HOLD is False and config.IS_DISCONNECTED is False and config.IS_CRASHED is False:
             # Set current time
             config.CURRENT_TIME = time.time()
@@ -134,112 +137,39 @@ def boss_detector():
 
 
 def boss_status_detector(sct, bossType, setNumber):
-    if bossType == 'mvp':
-        if setNumber == 1:  # [phreeoni mistress kraken eddga]
-            thread1 = Thread(
-                target=boss_tracker_repo.checking_box_1(sct, 'phreeoni'))
-            thread2 = Thread(
-                target=boss_tracker_repo.checking_box_2(sct, 'mistress'))
-            thread3 = Thread(
-                target=boss_tracker_repo.checking_box_3(sct, 'kraken'))
-            thread4 = Thread(
-                target=boss_tracker_repo.checking_box_4(sct, 'eddga'))
-            thread1.start()
-            thread2.start()
-            thread3.start()
-            thread4.start()
-            thread1.join()
-            thread2.join()
-            thread3.join()
-            thread4.join()
-        elif setNumber == 2:  # [orchero maya pharaoh orclord]
-            thread1 = Thread(
-                target=boss_tracker_repo.checking_box_1(sct, 'orchero'))
-            thread2 = Thread(
-                target=boss_tracker_repo.checking_box_2(sct, 'maya'))
-            thread3 = Thread(
-                target=boss_tracker_repo.checking_box_3(sct, 'pharaoh'))
-            thread4 = Thread(
-                target=boss_tracker_repo.checking_box_4(sct, 'orclord'))
-            thread1.start()
-            thread2.start()
-            thread3.start()
-            thread4.start()
-            thread1.join()
-            thread2.join()
-            thread3.join()
-            thread4.join()
-    if bossType == 'mini':
-        if setNumber == 1:  # [eclipse dragonfly mastering ghosting]
-            thread1 = Thread(
-                target=boss_tracker_repo.checking_box_1(sct, 'eclipse'))
-            thread2 = Thread(
-                target=boss_tracker_repo.checking_box_2(sct, 'dragonfly'))
-            thread3 = Thread(
-                target=boss_tracker_repo.checking_box_3(sct, 'mastering'))
-            thread4 = Thread(
-                target=boss_tracker_repo.checking_box_4(sct, 'ghosting'))
-            thread1.start()
-            thread2.start()
-            thread3.start()
-            thread4.start()
-            thread1.join()
-            thread2.join()
-            thread3.join()
-            thread4.join()
-        elif setNumber == 2:  # [kingdramoh toad angeling deviling]
-            thread1 = Thread(
-                target=boss_tracker_repo.checking_box_1(sct, 'kingdramoh'))
-            thread2 = Thread(
-                target=boss_tracker_repo.checking_box_2(sct, 'toad'))
-            thread3 = Thread(
-                target=boss_tracker_repo.checking_box_3(sct, 'angeling'))
-            thread4 = Thread(
-                target=boss_tracker_repo.checking_box_4(sct, 'deviling'))
-            thread1.start()
-            thread2.start()
-            thread3.start()
-            thread4.start()
-            thread1.join()
-            thread2.join()
-            thread3.join()
-            thread4.join()
+    if config.IS_HOLD is False and config.IS_DISCONNECTED is False and config.IS_CRASHED is False:
+        if bossType == 'mvp':
+            if setNumber == 1:  # [phreeoni mistress kraken eddga]
+                boss_tracker_repo.checking_box_1(sct, 'phreeoni')
+                boss_tracker_repo.checking_box_2(sct, 'mistress')
+                boss_tracker_repo.checking_box_3(sct, 'kraken')
+                boss_tracker_repo.checking_box_4(sct, 'eddga')
+            elif setNumber == 2:  # [orchero maya pharaoh orclord]
+                boss_tracker_repo.checking_box_1(sct, 'orchero')
+                boss_tracker_repo.checking_box_2(sct, 'maya')
+                boss_tracker_repo.checking_box_3(sct, 'pharaoh')
+                boss_tracker_repo.checking_box_4(sct, 'orclord')
+        if bossType == 'mini':
+            if setNumber == 1:  # [eclipse dragonfly mastering ghosting]
+                boss_tracker_repo.checking_box_1(sct, 'eclipse')
+                boss_tracker_repo.checking_box_2(sct, 'dragonfly')
+                boss_tracker_repo.checking_box_3(sct, 'mastering')
+                boss_tracker_repo.checking_box_4(sct, 'ghosting')
+            elif setNumber == 2:  # [kingdramoh toad angeling deviling]
+                boss_tracker_repo.checking_box_1(sct, 'kingdramoh')
+                boss_tracker_repo.checking_box_2(sct, 'toad')
+                boss_tracker_repo.checking_box_3(sct, 'angeling')
+                boss_tracker_repo.checking_box_4(sct, 'deviling')
 
 
-def detect_white_color(hsv_frame):
-    low_white = np.array([100, 0, 200])
-    high_white = np.array([125, 40, 255])
-    mask1 = cv2.inRange(hsv_frame, low_white, high_white)
-    mask2 = cv2.inRange(hsv_frame, low_white, high_white)
+def detect_color(hsv_frame, low_color, high_color):
+    low = np.array(low_color)
+    high = np.array(high_color)
+    mask1 = cv2.inRange(hsv_frame, low, high)
+    mask2 = cv2.inRange(hsv_frame, low, high)
     mask = cv2.bitwise_or(mask1, mask2)
     # Checking
-    if cv2.countNonZero(mask) > 0:  # ขาวแล้ว
-        return True
-    else:
-        return False
-
-
-def detect_gray_color(hsv_frame):
-    low_white = np.array([100, 0, 10])
-    high_white = np.array([125, 40, 100])
-    mask1 = cv2.inRange(hsv_frame, low_white, high_white)
-    mask2 = cv2.inRange(hsv_frame, low_white, high_white)
-    mask = cv2.bitwise_or(mask1, mask2)
-    # Checking
-    if cv2.countNonZero(mask) > 0:  # ขาวแล้ว
-        return True
-    else:
-        return False
-
-
-def detect_green_color(hsv_frame):
-    low_green = np.array([45, 40, 50])
-    high_green = np.array([65, 255, 255])
-    mask1 = cv2.inRange(hsv_frame, low_green, high_green)
-    mask2 = cv2.inRange(hsv_frame, low_green, high_green)
-    mask = cv2.bitwise_or(mask1, mask2)
-    # Checking
-    if cv2.countNonZero(mask) > 0:  # เขียวแล้ว
+    if cv2.countNonZero(mask) > 0:
         return True
     else:
         return False

@@ -1,9 +1,21 @@
 # -*- coding: utf-8 -*-
 import config
 
+import logging
 import requests
 from threading import Thread
 from datetime import datetime
+
+from requests.adapters import HTTPAdapter
+from requests.packages.urllib3.util.retry import Retry
+
+
+logging.basicConfig(
+    filename='error.log',
+    level=logging.ERROR,
+    format='%(asctime)s %(levelname)s %(name)s %(message)s'
+)
+logger = logging.getLogger(__name__)
 
 
 def send_message_webhook(case, options):
@@ -46,9 +58,14 @@ def send_message_webhook(case, options):
         data = disconnect_message_case(data)
 
     # sending get request and saving the response as response object
-    for url in config.DISCORD_WEBHOOK_URLS:
-        thread = Thread(target=request_discord_webhook(url, data))
+    if config.IS_DEVELOPMENT:
+        thread = Thread(target=request_discord_webhook(
+            config.DEVELOPER_WEBHOOK, data))
         thread.start()
+    else:
+        for url in config.DISCORD_WEBHOOK_URLS:
+            thread = Thread(target=request_discord_webhook(url, data))
+            thread.start()
 
 
 def send_logging_webhook(message):
@@ -85,7 +102,7 @@ def refreshing_message_case(boss_data, isAbyss, strTime, data):
     data['username'] = 'ROX - MVP Announcer'
     data['embeds'][0]['color'] = 65504  # Blue
     data['embeds'][0]['title'] = \
-        (':loudspeaker: Abyss ' + boss_data['fullName']) if isAbyss else (':loudspeaker: ' + boss_data['fullName']) + \
+        (':loudspeaker: Abyssal ' + boss_data['fullName']) if isAbyss else (':loudspeaker: ' + boss_data['fullName']) + \
         (" `Development`" if config.IS_DEVELOPMENT else "")
     data['embeds'][0]['description'] = \
         '[' + boss_data['type'] + '] กำลังจะรีเฟรช... (ประกาศแล้ว)'
@@ -93,7 +110,8 @@ def refreshing_message_case(boss_data, isAbyss, strTime, data):
 
     config.NOTICE_TIME = config.CURRENT_TIME
     print(
-        ('[' + strTime + '] ' + 'Abyss ' + boss_data['fullName'])
+        ('[' + strTime + '] ' + 'Abyssal ' +
+         boss_data['fullName'] + ' is refreshing...')
         if isAbyss else ('[' + strTime + '] ' + boss_data['fullName'])
         + ' is refreshing...')
     return data
@@ -169,11 +187,17 @@ def logging_message_case(data, message):
 
 
 def request_discord_webhook(url, data):
-    result = requests.post(url, json=data)
     try:
-        result.raise_for_status()
-    except requests.exceptions.HTTPError as err:
-        print("[WEBHOOK]: ErrorException, " + err)
-    else:
+        s = requests.Session()
+        retries = Retry(total=5,
+                        backoff_factor=1,
+                        status_forcelist=[502, 503, 504])
+        s.mount('https://', HTTPAdapter(max_retries=retries))
+        
+        result = s.post(url, json=data)
+        
         print("[SYSTEM]: Payload delivered successfully, code {}.".format(
             result.status_code))
+    except requests.exceptions.RequestException as err:
+        logging.error(err)
+        print("[ERROR]: WebhookException, " + err)
