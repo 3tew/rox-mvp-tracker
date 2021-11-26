@@ -85,7 +85,7 @@ def refreshing_text_detector(frame):
                 elif boss_name in ['angeling']:
                     webhook_repo.send_message_webhook(
                         'refreshing', {"boss_data": config.BOSS_DATAS['angeling'], "is_abyss": isAbyss})
-                elif boss_name in ['darkpriest']:
+                elif boss_name in ['dark priest']:
                     webhook_repo.send_message_webhook(
                         'refreshing', {"boss_data": config.BOSS_DATAS['darkpriest'], "is_abyss": isAbyss})
                 elif boss_name in ['vagabond wolf', 'vagabond']:
