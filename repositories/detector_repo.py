@@ -128,20 +128,24 @@ def boss_detector():
             boss_status_detector(self_screenshot, 'mvp', 1)
             func_repo.mouse_draging()
             boss_status_detector(self_screenshot, 'mvp', 2)
+            func_repo.mouse_draging()
+            boss_status_detector(self_screenshot, 'mvp', 3)
             # MINI Step
             func_repo.mouse_click_mini_tab()
             boss_status_detector(self_screenshot, 'mini', 1)
             func_repo.mouse_draging()
             boss_status_detector(self_screenshot, 'mini', 2)
+            func_repo.mouse_draging()
+            boss_status_detector(self_screenshot, 'mini', 3)
     sys.exit()
 
 
 def boss_status_detector(sct, bossType, setNumber):
     if config.IS_HOLD is False and config.IS_DISCONNECTED is False and config.IS_CRASHED is False:
         if bossType == 'mvp':
-            if setNumber == 1:  # [phreeoni mistress kraken eddga]
-                boss_tracker_repo.checking_box_1(sct, 'phreeoni')
+            if setNumber == 1:  # [mistress phreeoni kraken eddga]
                 boss_tracker_repo.checking_box_2(sct, 'mistress')
+                boss_tracker_repo.checking_box_1(sct, 'phreeoni')
                 boss_tracker_repo.checking_box_3(sct, 'kraken')
                 boss_tracker_repo.checking_box_4(sct, 'eddga')
             elif setNumber == 2:  # [orchero maya pharaoh orclord]
@@ -149,17 +153,23 @@ def boss_status_detector(sct, bossType, setNumber):
                 boss_tracker_repo.checking_box_2(sct, 'maya')
                 boss_tracker_repo.checking_box_3(sct, 'pharaoh')
                 boss_tracker_repo.checking_box_4(sct, 'orclord')
+            elif setNumber == 3:  # [amonra doppelganger]
+                boss_tracker_repo.checking_box_1(sct, 'amonra')
+                boss_tracker_repo.checking_box_2(sct, 'doppelganger')
         if bossType == 'mini':
-            if setNumber == 1:  # [eclipse dragonfly mastering ghosting]
-                boss_tracker_repo.checking_box_1(sct, 'eclipse')
-                boss_tracker_repo.checking_box_2(sct, 'dragonfly')
+            if setNumber == 1:  # [dragonfly eclipse mastering ghosting]
+                boss_tracker_repo.checking_box_1(sct, 'dragonfly')
+                boss_tracker_repo.checking_box_2(sct, 'eclipse')
                 boss_tracker_repo.checking_box_3(sct, 'mastering')
                 boss_tracker_repo.checking_box_4(sct, 'ghosting')
             elif setNumber == 2:  # [kingdramoh toad angeling deviling]
                 boss_tracker_repo.checking_box_1(sct, 'kingdramoh')
                 boss_tracker_repo.checking_box_2(sct, 'toad')
-                boss_tracker_repo.checking_box_3(sct, 'angeling')
-                boss_tracker_repo.checking_box_4(sct, 'deviling')
+                boss_tracker_repo.checking_box_3(sct, 'deviling')
+                boss_tracker_repo.checking_box_4(sct, 'angeling')
+            elif setNumber == 3:  # [darkpriest vagabondwolf]
+                boss_tracker_repo.checking_box_3(sct, 'darkpriest')
+                boss_tracker_repo.checking_box_4(sct, 'vagabondwolf')
 
 
 def detect_color(hsv_frame, low_color, high_color):

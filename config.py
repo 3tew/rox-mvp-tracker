@@ -55,8 +55,8 @@ MINI_BOUNDING_BOX_CENTER_X = 0
 MINI_BOUNDING_BOX_CENTER_Y = 0
 
 BOSS_NAMES = [
-    'phreeoni',
     'mistress',
+    'phreeoni',
     'kraken',
     'eddga',
     'maya',
@@ -65,52 +65,64 @@ BOSS_NAMES = [
     'hero',
     'orc Lord',
     'lord',
-    'eclipse',
+    'amon la',
+    'doppelganger',
+    'doppel',
     'mastering',
+    'eclipse',
     'ghosting',
     'ghost',
     'toad',
     'dragon fly',
     'king dramoh',
     'dramoh',
-    'angeling',
     'deviling',
+    'angeling',
+    'dark priest',
+    'vagabond wolf',
+    'vagabond',
 ]
 
 SPAWNED_TIME = {
     # MVP
-    'phreeoni': 0,
     'mistress': 0,
+    'phreeoni': 0,
     'kraken': 0,
     'eddga': 0,
     'orchero': 0,
     'maya': 0,
     'pharaoh': 0,
     'orclord': 0,
+    'amonla': 0,
+    'doppelganger': 0,
     # MINI
-    'eclipse': 0,
     'dragonfly': 0,
+    'eclipse': 0,
     'mastering': 0,
     'ghosting': 0,
     'kingdramoh': 0,
     'toad': 0,
-    'angeling': 0,
     'deviling': 0,
+    'angeling': 0,
+    'angeling': 0,
+    'angeling': 0,
+    'darkpriest': 0,
+    'vagabondwolf': 0,
 }
 
 BOSS_DATAS = {
     # MVP
-    "phreeoni": {
-        "fullName": "Phreeoni",
-        "name": "phreeoni",
-        "thumbnailUrl": "https://sf16-g-alisg.dailygn.com/obj/g-marketing-assets-sg/static/media/30008.9a7d59be.png",
-        "type": "MVP",
-        "isAlive": False,
-    },
     "mistress": {
         "fullName": "Mistress",
         "name": "mistress",
         "thumbnailUrl": "https://sf16-g-alisg.dailygn.com/obj/g-marketing-assets-sg/static/media/30007.90897e7b.png",
+        "type": "MVP",
+        "isAlive": False,
+    },
+    "phreeoni": {
+        "fullName": "Phreeoni",
+        "name": "phreeoni",
+        "thumbnailUrl": "https://sf16-g-alisg.dailygn.com/obj/g-marketing-assets-sg/static/media/30008.9a7d59be.png",
         "type": "MVP",
         "isAlive": False,
     },
@@ -156,18 +168,32 @@ BOSS_DATAS = {
         "type": "MVP",
         "isAlive": False,
     },
-    # MINI
-    "eclipse": {
-        "fullName": "Eclipse",
-        "name": "eclipse",
-        "thumbnailUrl": "https://sf16-g-alisg.dailygn.com/obj/g-marketing-assets-sg/static/media/31006.c8c5eef9.png",
-        "type": "Miniboss",
+    "amonla": {
+        "fullName": "Amon La",
+        "name": "amonla",
+        "thumbnailUrl": "https://p16-sg.dailygn.com/obj/g-marketing-assets-sg/static/media/30020.44172025.png",
+        "type": "MVP",
         "isAlive": False,
     },
+    "doppelganger": {
+        "fullName": "Doppelganger",
+        "name": "doppelganger",
+        "thumbnailUrl": "https://p16-sg.dailygn.com/obj/g-marketing-assets-sg/static/media/30014.de5a78c6.png",
+        "type": "MVP",
+        "isAlive": False,
+    },
+    # MINI
     "dragonfly": {
         "fullName": "Dragon Fly",
         "name": "dragonfly",
         "thumbnailUrl": "https://sf16-g-alisg.dailygn.com/obj/g-marketing-assets-sg/static/media/31004.fca89f61.png",
+        "type": "Miniboss",
+        "isAlive": False,
+    },
+    "eclipse": {
+        "fullName": "Eclipse",
+        "name": "eclipse",
+        "thumbnailUrl": "https://sf16-g-alisg.dailygn.com/obj/g-marketing-assets-sg/static/media/31006.c8c5eef9.png",
         "type": "Miniboss",
         "isAlive": False,
     },
@@ -199,6 +225,13 @@ BOSS_DATAS = {
         "type": "Miniboss",
         "isAlive": False,
     },
+    "deviling": {
+        "fullName": "Deviling",
+        "name": "deviling",
+        "thumbnailUrl": "https://sf16-g-alisg.dailygn.com/obj/g-marketing-assets-sg/static/media/30003.a217d20e.png",
+        "type": "Miniboss",
+        "isAlive": False,
+    },
     "angeling": {
         "fullName": "Angeling",
         "name": "angeling",
@@ -206,10 +239,17 @@ BOSS_DATAS = {
         "type": "Miniboss",
         "isAlive": False,
     },
-    "deviling": {
-        "fullName": "Deviling",
-        "name": "deviling",
-        "thumbnailUrl": "https://sf16-g-alisg.dailygn.com/obj/g-marketing-assets-sg/static/media/30003.a217d20e.png",
+    "darkpriest": {
+        "fullName": "Dark Priest",
+        "name": "darkpriest",
+        "thumbnailUrl": "https://p16-sg.dailygn.com/obj/g-marketing-assets-sg/static/media/30021.6b240a55.png",
+        "type": "Miniboss",
+        "isAlive": False,
+    },
+    "vagabondwolf": {
+        "fullName": "Vagabond Wolf",
+        "name": "vagabondwolf",
+        "thumbnailUrl": "https://sf16-g-alisg.dailygn.com/obj/g-marketing-assets-sg/static/media/30001.32d166a9.png",
         "type": "Miniboss",
         "isAlive": False,
     },
