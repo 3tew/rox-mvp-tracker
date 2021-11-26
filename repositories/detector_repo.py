@@ -144,8 +144,8 @@ def boss_status_detector(sct, bossType, setNumber):
     if config.IS_HOLD is False and config.IS_DISCONNECTED is False and config.IS_CRASHED is False:
         if bossType == 'mvp':
             if setNumber == 1:  # [mistress phreeoni kraken eddga]
-                boss_tracker_repo.checking_box_2(sct, 'mistress')
-                boss_tracker_repo.checking_box_1(sct, 'phreeoni')
+                boss_tracker_repo.checking_box_1(sct, 'mistress')
+                boss_tracker_repo.checking_box_2(sct, 'phreeoni')
                 boss_tracker_repo.checking_box_3(sct, 'kraken')
                 boss_tracker_repo.checking_box_4(sct, 'eddga')
             elif setNumber == 2:  # [orchero maya pharaoh orclord]
@@ -162,7 +162,7 @@ def boss_status_detector(sct, bossType, setNumber):
                 boss_tracker_repo.checking_box_2(sct, 'eclipse')
                 boss_tracker_repo.checking_box_3(sct, 'mastering')
                 boss_tracker_repo.checking_box_4(sct, 'ghosting')
-            elif setNumber == 2:  # [kingdramoh toad angeling deviling]
+            elif setNumber == 2:  # [kingdramoh toad deviling angeling]
                 boss_tracker_repo.checking_box_1(sct, 'kingdramoh')
                 boss_tracker_repo.checking_box_2(sct, 'toad')
                 boss_tracker_repo.checking_box_3(sct, 'deviling')
