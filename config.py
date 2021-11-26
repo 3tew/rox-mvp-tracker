@@ -65,7 +65,7 @@ BOSS_NAMES = [
     'hero',
     'orc Lord',
     'lord',
-    'amon la',
+    'Amon Ra',
     'doppelganger',
     'doppel',
     'mastering',
@@ -93,7 +93,7 @@ SPAWNED_TIME = {
     'maya': 0,
     'pharaoh': 0,
     'orclord': 0,
-    'amonla': 0,
+    'amonra': 0,
     'doppelganger': 0,
     # MINI
     'dragonfly': 0,
@@ -168,9 +168,9 @@ BOSS_DATAS = {
         "type": "MVP",
         "isAlive": False,
     },
-    "amonla": {
-        "fullName": "Amon La",
-        "name": "amonla",
+    "amonra": {
+        "fullName": "Amon Ra",
+        "name": "amonra",
         "thumbnailUrl": "https://p16-sg.dailygn.com/obj/g-marketing-assets-sg/static/media/30020.44172025.png",
         "type": "MVP",
         "isAlive": False,
