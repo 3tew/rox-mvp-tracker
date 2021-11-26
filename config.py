@@ -249,7 +249,7 @@ BOSS_DATAS = {
     "vagabondwolf": {
         "fullName": "Vagabond Wolf",
         "name": "vagabondwolf",
-        "thumbnailUrl": "https://sf16-g-alisg.dailygn.com/obj/g-marketing-assets-sg/static/media/30001.32d166a9.png",
+        "thumbnailUrl": "https://p16-sg.dailygn.com/obj/g-marketing-assets-sg/static/media/31005.2f9598da.png",
         "type": "Miniboss",
         "isAlive": False,
     },
