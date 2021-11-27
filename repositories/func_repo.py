@@ -63,9 +63,9 @@ def mouse_draging():
         pyautogui.dragTo(x=x2, y=y2, button='left',
                         duration=0.3, mouseDownUp=False)
         pyautogui.dragTo(x=x2, y=y2 + 1, button='left',  # Calibrating
-                        duration=0.15, mouseDownUp=False)
+                        duration=0.2, mouseDownUp=False)
         pyautogui.mouseUp(button='left')
-        time.sleep(0.25)  # Delay 250 milliseconds
+        time.sleep(0.4)  # Delay 400 milliseconds
 
 
 def alert(title, message, kind='info'):
